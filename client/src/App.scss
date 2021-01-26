@@ -39,11 +39,32 @@ ul {
 	padding: 0;
 }
 
+h2 {
+	font-weight: normal;
+}
+
+*:focus {
+	outline: none;
+}
+.hidden {
+	display: none;
+}
+
+.invisible {
+	opacity: 0;
+	position: absolute;
+	z-index: -1;
+}
+
+:focus {
+	outline: none;
+}
+
 // Variables
 $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
 	rgba(0, 0, 0, 0.1) 0px 4px 11px;
 $generic-border: 1px solid #6b6b6b;
-$generic-bg: #db4c3f;
+$generic-bg: #34be5b;
 
 /* Mixins
 	 ============================================ */
@@ -104,7 +125,7 @@ $generic-bg: #db4c3f;
 }
 
 @mixin cancel() {
-	color: #555;
+	color: #ddd;
 	cursor: pointer;
 	font-size: 14px;
 	margin: 2px 5px;
@@ -220,7 +241,6 @@ header {
 
 					&:hover {
 						border-radius: 3px;
-						background-color: rgba(255, 255, 255, 0.2);
 					}
 
 					&.settings__add {
@@ -229,7 +249,7 @@ header {
 
 						button {
 							@include transparent-button();
-							color: white;
+							color: #34be5b;
 							cursor: pointer;
 						}
 					}
@@ -263,8 +283,8 @@ header {
 	height: calc(100vh);
 	padding-top: 74px;
 	position: fixed;
-	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow-y: auto;
+	overflow-y: auto;
 	border-right: $generic-border;
 	left: 0;
 	background-color: #2d2d2e;
@@ -362,7 +382,7 @@ header {
 		cursor: pointer;
 
 		span {
-			color: #0000008a;
+			color: #34be5b;
 			margin-right: 10px;
 
 			svg.hidden-projects {
@@ -487,7 +507,7 @@ header {
 	align-items: stretch;
 	justify-content: flex-start;
 	flex-direction: column;
-	overflow: hidden;
+	overflow-y: auto;
 	position: relative;
 
 	@include mq("900px") {
@@ -518,9 +538,10 @@ header {
 			list-style-type: none;
 			cursor: pointer;
 			padding: 0.5em 1em;
+			margin-bottom: 5px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
-			overflow: hidden;
+			overflow-y: auto;
 			border-radius: 5px;
 
 			&:hover {
@@ -602,10 +623,10 @@ header {
 	align-items: stretch;
 	justify-content: flex-start;
 	flex-direction: column;
-	overflow: hidden;
+	overflow-y: auto;
 	position: relative;
 
-	span {
+	&-field {
 		display: -webkit-box;
 		display: -ms-flexbox;
 		display: flex;
@@ -615,18 +636,32 @@ header {
 		padding-bottom: 10px;
 		font-size: 14px;
 		list-style-type: none;
-		cursor: pointer;
 		padding: 0.5em 1em;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		border-radius: 5px;
 		align-items: center;
+	}
 
-		span {
-			font-size: 0.8em;
-			color: #5e5e5e;
-		}
+	&-label {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		line-height: 18px;
+		color: #f7f7f7;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		font-size: 14px;
+		list-style-type: none;
+		padding: 0.5em 1em;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		border-radius: 5px;
+		align-items: center;
+		font-size: 0.8em;
+		color: #5e5e5e;
 	}
 
 	&-icon {
@@ -638,6 +673,24 @@ header {
 		top: -1px;
 		font-size: 1em;
 		font-weight: lighter;
+	}
+
+	&-encrypted-password {
+		margin-right: 40px;
+	}
+
+	&:hover .password-detail-actions {
+		cursor: pointer;
+		display: flex;
+	}
+
+	&-actions {
+		margin-left: 10px;
+		display: none;
+
+		svg {
+			color: #cacaca;
+		}
 	}
 }
 /* Add Task
@@ -661,11 +714,10 @@ header {
 				width: 90%;
 			}
 
-			overflow: visible;
+			overflow-y: auto;
 			margin-bottom: 20px;
-			margin-top: 55px;
 			border-radius: 5px;
-			background-color: white;
+			background-color: #2d2d2e;
 			position: absolute;
 			left: 50%;
 			top: 50%;
@@ -674,9 +726,9 @@ header {
 			transform: translate(-50%, -50%);
 
 			.header {
-				font-size: 13px;
+				font-size: 15px;
+				font-weight: 600;
 				margin-bottom: 20px;
-				float: left;
 			}
 		}
 
@@ -685,7 +737,7 @@ header {
 			color: gray;
 			float: right;
 			font-size: 12px;
-			margin-top: 10px;
+			top: 0;
 		}
 	}
 
@@ -704,15 +756,41 @@ header {
 	&__project {
 		margin-right: 0;
 	}
+	label {
+		display: block;
+		font-size: 0.85rem;
+		margin-bottom: 0.75em;
+	}
 
-	&__content {
-		width: 100%;
+	textarea {
+		height: 2em;
+		line-height: normal;
+		color: inherit;
+		color: #f7f7f7;
+		background-color: #1e1e1e;
+		width: 80%;
 		border: 1px solid #ddd;
-		background-color: white !important;
-		border-radius: 3px;
+		height: 50px;
+		padding-left: 10px;
+		padding-right: 10px;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+		border-radius: 4px;
+		margin-bottom: 20px;
+	}
+	input {
+		height: 2em;
+		line-height: normal;
+		color: inherit;
+		color: #f7f7f7;
+		background-color: #1e1e1e;
+		width: 80%;
+		border: 1px solid #ddd;
 		height: 35px;
 		padding-left: 10px;
 		padding-right: 10px;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+		border-radius: 4px;
+		margin-bottom: 20px;
 	}
 
 	&__cancel,
@@ -732,22 +810,22 @@ header {
 .add-task__shallow,
 .add-project {
 	@include no-select;
-	cursor: pointer;
 	margin-bottom: 20px;
 }
 
 .add-task__plus,
 .add-project__plus {
-	color: #dd4b39;
+	color: #34be5b;
 	font-size: 18px;
 }
 
 .add-task__text,
 .add-project__text {
+	cursor: pointer;
 	display: inline-block;
-	color: #545454;
+	color: #ddd;
 	font-size: 14px;
-	margin-left: 15px;
+	margin-left: 10px;
 }
 
 /* Task Date

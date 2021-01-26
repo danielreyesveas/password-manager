@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const { decrypt } = require("../utils/EncryptionHandler");
+
 module.exports = (sequelize, DataTypes) => {
 	class Password extends Model {
 		static associate({ Group }) {
@@ -40,7 +42,11 @@ module.exports = (sequelize, DataTypes) => {
 			ecodedPassword: {
 				type: DataTypes.VIRTUAL,
 				get() {
-					const pass = Array(this.password.length + 1);
+					const decrypted = decrypt({
+						iv: this.iv,
+						password: this.password,
+					});
+					const pass = Array(decrypted.length + 1);
 					return pass.join("•");
 				},
 			},

@@ -32,7 +32,7 @@ const AddGroup = ({ shouldShow = false, addGroup }) => {
 						onClick={() => handleAddGroup()}
 						data-testid="add-project-submit"
 					>
-						Add Group
+						Add
 					</button>
 					<span
 						aria-label="Cancel adding project"
@@ -47,18 +47,19 @@ const AddGroup = ({ shouldShow = false, addGroup }) => {
 					</span>
 				</div>
 			)}
-			<span className="add-project__plus">+</span>
-			<span
-				aria-label="Add project"
-				className="add-project__text"
-				data-testid="add-project-action"
-				onClick={() => setShow(!show)}
-				onKeyDown={() => setShow(!show)}
-				role="button"
-				tabIndex={0}
-			>
-				Add Group
-			</span>
+			{!show && (
+				<span
+					aria-label="Add project"
+					className="add-project__text"
+					data-testid="add-project-action"
+					onClick={() => setShow(!show)}
+					onKeyDown={() => setShow(!show)}
+					role="button"
+					tabIndex={0}
+				>
+					<span className="add-project__plus">+</span> Group
+				</span>
+			)}
 		</div>
 	);
 };

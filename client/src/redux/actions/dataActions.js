@@ -6,12 +6,18 @@ import {
 	ADD_PASSWORD,
 	SET_PASSWORD,
 } from "../types";
+
 import axios from "axios";
 
 export const getGroups = () => (dispatch) => {
-	axios.get("/groups").then((response) => {
-		dispatch({ type: GET_GROUPS, payload: response.data });
-	});
+	axios
+		.get("/groups")
+		.then((response) => {
+			dispatch({ type: GET_GROUPS, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
 
 export const setGroup = (selectedGroup) => (dispatch) => {
@@ -19,22 +25,37 @@ export const setGroup = (selectedGroup) => (dispatch) => {
 };
 
 export const getPasswords = () => (dispatch) => {
-	axios.get("/passwords").then((response) => {
-		dispatch({ type: GET_PASSWORDS, payload: response.data });
-	});
+	axios
+		.get("/passwords")
+		.then((response) => {
+			dispatch({ type: GET_PASSWORDS, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
 
 export const addPassword = (password) => (dispatch) => {
-	axios.post("/add-password", password).then((response) => {
-		console.log(response.data);
-		dispatch({ type: ADD_PASSWORD, payload: response.data });
-	});
+	axios
+		.post("/add-password", password)
+		.then((response) => {
+			console.log(response.data);
+			dispatch({ type: ADD_PASSWORD, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
 
 export const addGroup = (group) => (dispatch) => {
-	axios.post("/add-group", group).then((response) => {
-		dispatch({ type: ADD_GROUP, payload: response.data });
-	});
+	axios
+		.post("/add-group", group)
+		.then((response) => {
+			dispatch({ type: ADD_GROUP, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
 
 export const setPassword = (selectedPassword) => (dispatch) => {

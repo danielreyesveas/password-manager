@@ -33,7 +33,7 @@ const {
 
 app.get("/api/passwords", getPasswords);
 app.post("/api/add-password", addPassword);
-app.post("/api/decrypt", decryptPassword);
+app.post("/api/decrypt-password", decryptPassword);
 app.get("/api/groups", getGroups);
 app.post("/api/add-group", addGroup);
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaRegMoon, FaSun, FaKey } from "react-icons/fa";
+import { FaRegMoon, FaSun, FaKey, FaPlus } from "react-icons/fa";
 import AddPassword from "../AddPassword";
 
 export default function Header({ darkMode, setDarkMode }) {
@@ -28,7 +28,7 @@ export default function Header({ darkMode, setDarkMode }) {
 								}}
 								type="button"
 							>
-								+
+								<FaPlus />
 							</button>
 						</li>
 						<li className="settings__darkmode">

@@ -5,7 +5,7 @@ import Content from "./components/layout/Content";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-function App({ darkModeDefault = false }) {
+function App({ darkModeDefault = true }) {
 	const [darkMode, setDarkMode] = useState(darkModeDefault);
 
 	axios.defaults.baseURL = "http://localhost:5000/api";

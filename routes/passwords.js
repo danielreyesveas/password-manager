@@ -24,6 +24,7 @@ exports.getPasswords = async (requets, response) => {
 		const data = await Password.findAll();
 		return response.status(200).json(data);
 	} catch (error) {
+		console.log(error);
 		return response.status(500).json({ error: error });
 	}
 };
