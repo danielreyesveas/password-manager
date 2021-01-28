@@ -8,8 +8,8 @@ import { UIProvider } from "./context";
 
 function App({ darkModeDefault = true }) {
 	const [darkMode, setDarkMode] = useState(darkModeDefault);
-
-	axios.defaults.baseURL = process.env.REACT_APP_SERVER_BASE_URL + "/api";
+	const host = window.location.host;
+	axios.defaults.baseURL = host + "/api";
 
 	return (
 		<Provider store={store}>
