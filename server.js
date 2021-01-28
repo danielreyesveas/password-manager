@@ -7,17 +7,6 @@ const { sequelize } = require("./models");
 
 const { encrypt, decrypt } = require("./utils/EncryptionHandler");
 
-const connectionString =
-	"postgres://postgres:JGDO.jgdo.5620@localhost:5432/password_manager";
-const client = new Client({
-	user: "postgres",
-	host: "localhost",
-	database: "password_manager",
-	password: "JGDO.jgdo.5620",
-	port: "5432",
-});
-
-client.connect();
 const app = express();
 
 app.use(cors());
