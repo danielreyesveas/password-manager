@@ -1,3 +1,3 @@
-import { UIContext, UIProvider, useShowEditPassword } from "./ui-context";
+import { UIContext, UIProvider, useUI } from "./ui-context";
 
-export { UIContext, UIProvider, useShowEditPassword };
+export { UIContext, UIProvider, useUI };

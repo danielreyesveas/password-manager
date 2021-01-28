@@ -3,12 +3,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { FaCopy, FaEye, FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { connect } from "react-redux";
 import { getPassword } from "../redux/actions/dataActions";
-import { useShowEditPassword } from "../context";
+import { useUI } from "../context";
 
 const PasswordDetail = ({ password, getPassword }) => {
 	const [decryptedPassword, setDecryptedPassword] = useState("");
 	const [passwordField, setPasswordField] = useState(null);
-	const { setShowEditPassword } = useShowEditPassword();
+	const { setShowEditPassword } = useUI();
 	const copyRef = useRef(null);
 
 	useLayoutEffect(() => {

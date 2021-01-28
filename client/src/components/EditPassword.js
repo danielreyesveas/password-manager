@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { FaRegListAlt } from "react-icons/fa";
 import { connect } from "react-redux";
 import { updatePassword } from "../redux/actions/dataActions";
 import GroupOverlay from "./GroupOverlay";
-import { useShowEditPassword } from "../context";
+import { useUI } from "../context";
 
 const EditPassword = ({
 	groups,
@@ -18,7 +17,7 @@ const EditPassword = ({
 	const [notes, setNotes] = useState("");
 	const [group, setGroup] = useState("");
 	const [showGroupOverlay, setShowGroupOverlay] = useState(false);
-	const { showEditPassword, setShowEditPassword } = useShowEditPassword();
+	const { showEditPassword, setShowEditPassword } = useUI();
 
 	useEffect(() => {
 		if (selectedPassword) {

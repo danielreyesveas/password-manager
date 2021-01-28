@@ -1,16 +1,16 @@
-import { useState } from "react";
 import { FaRegMoon, FaSun, FaKey, FaPlus } from "react-icons/fa";
 import AddPassword from "../AddPassword";
 import EditPassword from "../EditPassword";
+import { useUI } from "../../context";
+import Generator from "../Generator";
 
 export default function Header({ darkMode, setDarkMode }) {
-	const [shouldShowMain, setShouldShowMain] = useState(false);
-	const [showQuickAddTask, setShowQuickAddTask] = useState(false);
+	const { setShowAddPassword, setShowGenerator } = useUI();
 
 	return (
 		<header className="header" data-testid="header">
 			<nav>
-				<div className="logo">
+				<div className="logo" onClick={() => setShowGenerator(true)}>
 					<FaKey />
 				</div>
 				<div className="settings">
@@ -20,12 +20,10 @@ export default function Header({ darkMode, setDarkMode }) {
 								data-testid="quick-add-task-action"
 								aria-label="Quick add task"
 								onClick={() => {
-									setShowQuickAddTask(true);
-									setShouldShowMain(true);
+									setShowAddPassword(true);
 								}}
 								onKeyDown={() => {
-									setShowQuickAddTask(true);
-									setShouldShowMain(true);
+									setShowAddPassword(true);
 								}}
 								type="button"
 							>
@@ -47,12 +45,9 @@ export default function Header({ darkMode, setDarkMode }) {
 				</div>
 			</nav>
 
-			<AddPassword
-				showAddTaskMain={false}
-				shouldShowMain={shouldShowMain}
-				showQuickAddTask={showQuickAddTask}
-				setShowQuickAddTask={setShowQuickAddTask}
-			/>
+			<Generator />
+
+			<AddPassword />
 
 			<EditPassword />
 		</header>

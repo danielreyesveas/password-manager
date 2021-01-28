@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import { connect } from "react-redux";
-import { setShowEditGroup, updateGroup } from "../redux/actions/dataActions";
+import { updateGroup } from "../redux/actions/dataActions";
+import { useUI } from "../context";
 
-const EditGroup = ({ selectedGroup, setShowEditGroup, updateGroup }) => {
+const EditGroup = ({ selectedGroup, updateGroup }) => {
+	const { setShowEditGroup } = useUI();
 	const [name, setName] = useState(selectedGroup?.name);
 
 	const handleUpdateGroup = () => {
@@ -54,7 +56,6 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
 	updateGroup,
-	setShowEditGroup,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(EditGroup);

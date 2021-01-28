@@ -2,21 +2,22 @@ import { useState } from "react";
 
 import { connect } from "react-redux";
 import { addGroup } from "../redux/actions/dataActions";
+import { useUI } from "../context";
 
-const AddGroup = ({ shouldShow = false, addGroup }) => {
-	const [show, setShow] = useState(shouldShow);
+const AddGroup = ({ addGroup }) => {
+	const { showAddGroup, setShowAddGroup } = useUI();
 	const [name, setName] = useState("");
 
 	const handleAddGroup = () => {
 		if (name === "") return;
 		addGroup({ name });
 		setName("");
-		setShow(false);
+		setShowAddGroup(false);
 	};
 
 	return (
 		<div className="add-project" data-testid="add-project">
-			{show && (
+			{showAddGroup && (
 				<div className="add-project__input">
 					<input
 						value={name}
@@ -38,8 +39,8 @@ const AddGroup = ({ shouldShow = false, addGroup }) => {
 						aria-label="Cancel adding project"
 						className="add-project__cancel"
 						data-testid="hide-project-overlay"
-						onClick={() => setShow(false)}
-						onKeyDown={() => setShow(false)}
+						onClick={() => setShowAddGroup(false)}
+						onKeyDown={() => setShowAddGroup(false)}
 						role="button"
 						tabIndex={0}
 					>
@@ -47,13 +48,13 @@ const AddGroup = ({ shouldShow = false, addGroup }) => {
 					</span>
 				</div>
 			)}
-			{!show && (
+			{!showAddGroup && (
 				<span
 					aria-label="Add project"
 					className="add-project__text"
 					data-testid="add-project-action"
-					onClick={() => setShow(!show)}
-					onKeyDown={() => setShow(!show)}
+					onClick={() => setShowAddGroup(true)}
+					onKeyDown={() => setShowAddGroup(true)}
 					role="button"
 					tabIndex={0}
 				>

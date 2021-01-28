@@ -6,8 +6,10 @@ import AddGroup from "../AddGroup";
 import Groups from "../Groups";
 import { setGroup } from "../../redux/actions/dataActions";
 import EditGroup from "../EditGroup";
+import { useUI } from "../../context";
 
-const Sidebar = ({ showEditGroup, selectedGroup, setGroup }) => {
+const Sidebar = ({ selectedGroup, setGroup }) => {
+	const { showEditGroup } = useUI();
 	const [showGroups, setShowGroups] = useState(true);
 
 	return (
@@ -65,7 +67,6 @@ const Sidebar = ({ showEditGroup, selectedGroup, setGroup }) => {
 
 const mapStateToProps = (state) => ({
 	selectedGroup: state.data.selectedGroup,
-	showEditGroup: state.data.showEditGroup,
 });
 
 const mapActionsToProps = {

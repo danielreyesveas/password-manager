@@ -1,16 +1,11 @@
 import { useState } from "react";
-import { FaRegListAlt } from "react-icons/fa";
 import { connect } from "react-redux";
 import { addPassword } from "../redux/actions/dataActions";
 import GroupOverlay from "./GroupOverlay";
+import { useUI } from "../context";
 
-const AddPassword = ({
-	groups,
-	showQuickAddTask,
-	setShowQuickAddTask,
-	selectedGroup,
-	addPassword,
-}) => {
+const AddPassword = ({ groups, selectedGroup, addPassword }) => {
+	const { showAddPassword, setShowAddPassword } = useUI();
 	const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [website, setWebsite] = useState("");
@@ -39,163 +34,132 @@ const AddPassword = ({
 		setPassword("");
 		setNotes("");
 		setGroup(null);
-		setShowQuickAddTask(false);
+		setShowAddPassword(false);
 	};
 
-	return (
-		<div
-			className={
-				showQuickAddTask ? "add-task add-task__overlay" : "add-task"
-			}
-			data-testid="add-task-comp"
-		>
-			{showQuickAddTask && (
-				<div className="add-task__main" data-testid="add-task-main">
-					{showQuickAddTask && (
-						<>
-							<div data-testid="quick-add-task">
-								<span
-									aria-label="Cancel adding task"
-									className="add-task__cancel-x"
-									data-testid="add-task-quick-cancel"
-									onClick={() => {
-										setShowGroupOverlay(false);
-										setShowQuickAddTask(false);
-									}}
-									onKeyDown={() => {
-										setShowGroupOverlay(false);
-										setShowQuickAddTask(false);
-									}}
-									tabIndex={0}
-									role="button"
-								>
-									X
-								</span>
-								<h2 className="header">Add Password</h2>
-							</div>
-						</>
-					)}
-
-					<GroupOverlay
-						setGroup={setGroup}
-						showGroupOverlay={showGroupOverlay}
-						setShowGroupOverlay={setShowGroupOverlay}
-					/>
-
-					<label>Title:</label>
-					<input
-						aria-label="Enter the title"
-						className="add-task__name"
-						data-testid="add-task-content"
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-
-					<label>Group:</label>
-					<select
-						className="add-task__group"
-						onChange={(e) => setGroup(e.target.value)}
-					>
-						<option value="">All</option>
-						{groups?.map((group) => (
-							<option key={group.id} value={group.id}>
-								{group.name}
-							</option>
-						))}
-					</select>
-
-					<label>User:</label>
-					<input
-						aria-label="Enter your username"
-						className="add-task__content"
-						data-testid="add-task-content"
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-
-					<label>Website:</label>
-					<input
-						aria-label="Enter your website"
-						className="add-task__content"
-						data-testid="add-task-content"
-						type="text"
-						value={website}
-						onChange={(e) => setWebsite(e.target.value)}
-					/>
-
-					<label>Password:</label>
-					<input
-						aria-label="Enter your password"
-						className="add-task__content"
-						data-testid="add-task-content"
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-
-					<label>Notes:</label>
-					<textarea
-						aria-label="Enter your notes"
-						className="add-task__content"
-						rows="4"
-						data-testid="add-task-content"
-						onChange={(e) => setNotes(e.target.value)}
-						value={notes}
-					></textarea>
-
-					<button
-						className="add-task__submit"
-						data-testid="add-task"
-						type="button"
-						disabled={name === "" || password === ""}
-						onClick={() => {
-							showQuickAddTask
-								? handleAddPassword() &&
-								  setShowQuickAddTask(false)
-								: handleAddPassword();
-						}}
-					>
-						Add Password
-					</button>
+	return showAddPassword ? (
+		<div className="add-task add-task__overlay" data-testid="add-task-comp">
+			<div className="add-task__main" data-testid="add-task-main">
+				<div data-testid="quick-add-task">
 					<span
-						aria-label="Cancel adding a task"
-						className="add-task__cancel"
-						data-testid="add-task-main-cancel"
+						aria-label="Cancel adding task"
+						className="add-task__cancel-x"
+						data-testid="add-task-quick-cancel"
 						onClick={() => {
-							setShowQuickAddTask(false);
 							setShowGroupOverlay(false);
+							setShowAddPassword(false);
 						}}
 						onKeyDown={() => {
-							setShowQuickAddTask(false);
 							setShowGroupOverlay(false);
+							setShowAddPassword(false);
 						}}
 						tabIndex={0}
 						role="button"
 					>
-						Cancel
+						X
 					</span>
+					<h2 className="header">New Password</h2>
+				</div>
 
-					{!showQuickAddTask && (
-						<span
-							aria-label="Cancel adding a task"
-							className="add-task__cancel"
-							data-testid="add-task-main-cancel"
-							onClick={() => {
-								setShowGroupOverlay(false);
-							}}
-							onKeyDown={() => {
-								setShowGroupOverlay(false);
-							}}
-							tabIndex={0}
-							role="button"
-						>
-							Cancel
-						</span>
-					)}
+				<GroupOverlay
+					setGroup={setGroup}
+					showGroupOverlay={showGroupOverlay}
+					setShowGroupOverlay={setShowGroupOverlay}
+				/>
 
-					{/* <span
+				<label>Title:</label>
+				<input
+					aria-label="Enter the title"
+					className="add-task__name"
+					data-testid="add-task-content"
+					type="text"
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+				/>
+
+				<label>Group:</label>
+				<select
+					className="add-task__group"
+					onChange={(e) => setGroup(e.target.value)}
+				>
+					<option value="">All</option>
+					{groups?.map((group) => (
+						<option key={group.id} value={group.id}>
+							{group.name}
+						</option>
+					))}
+				</select>
+
+				<label>User:</label>
+				<input
+					aria-label="Enter your username"
+					className="add-task__content"
+					data-testid="add-task-content"
+					type="text"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+				/>
+
+				<label>Website:</label>
+				<input
+					aria-label="Enter your website"
+					className="add-task__content"
+					data-testid="add-task-content"
+					type="text"
+					value={website}
+					onChange={(e) => setWebsite(e.target.value)}
+				/>
+
+				<label>Password:</label>
+				<input
+					aria-label="Enter your password"
+					className="add-task__content"
+					data-testid="add-task-content"
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+
+				<label>Notes:</label>
+				<textarea
+					aria-label="Enter your notes"
+					className="add-task__content"
+					rows="4"
+					data-testid="add-task-content"
+					onChange={(e) => setNotes(e.target.value)}
+					value={notes}
+				></textarea>
+
+				<button
+					className="add-task__submit"
+					data-testid="add-task"
+					type="button"
+					disabled={name === "" || password === ""}
+					onClick={() => {
+						handleAddPassword() && setShowAddPassword(false);
+					}}
+				>
+					Add Password
+				</button>
+				<span
+					aria-label="Cancel adding a task"
+					className="add-task__cancel"
+					data-testid="add-task-main-cancel"
+					onClick={() => {
+						setShowAddPassword(false);
+						setShowGroupOverlay(false);
+					}}
+					onKeyDown={() => {
+						setShowAddPassword(false);
+						setShowGroupOverlay(false);
+					}}
+					tabIndex={0}
+					role="button"
+				>
+					Cancel
+				</span>
+
+				{/* <span
 						className="add-task__project"
 						data-testid="show-project-overlay"
 						onClick={() => setShowGroupOverlay(!showGroupOverlay)}
@@ -205,10 +169,9 @@ const AddPassword = ({
 					>
 						<FaRegListAlt />
 					</span> */}
-				</div>
-			)}
+			</div>
 		</div>
-	);
+	) : null;
 };
 
 const mapStateToProps = (state) => ({

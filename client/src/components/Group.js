@@ -2,16 +2,19 @@ import { useState } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 
 import { connect } from "react-redux";
-import { setGroup, setShowEditGroup } from "../redux/actions/dataActions";
+import { setGroup } from "../redux/actions/dataActions";
+import { useUI } from "../context";
 
-const Group = ({ group, setGroup, showEditGroup, setShowEditGroup }) => {
+const Group = ({ group, setGroup }) => {
+	const { setShowEditGroup } = useUI();
 	const { id, name } = group;
 	const [showConfirm, setShowConfirm] = useState(false);
 
 	const deleteProject = (id) => {};
 
-	const selectGroup = (group) => {
+	const handleEditGroup = (group) => {
 		setGroup(group);
+		setShowEditGroup(true);
 	};
 
 	return (
@@ -20,12 +23,8 @@ const Group = ({ group, setGroup, showEditGroup, setShowEditGroup }) => {
 				aria-label={`Select ${group.name}`}
 				role="button"
 				tabIndex={0}
-				onClick={() => {
-					selectGroup(group);
-				}}
-				onKeyDown={() => {
-					selectGroup(group);
-				}}
+				onClick={() => setGroup(group)}
+				onKeyDown={() => setGroup(group)}
 				className="sidebar__project-name"
 			>
 				<span className="sidebar__dot">•</span>
@@ -34,8 +33,8 @@ const Group = ({ group, setGroup, showEditGroup, setShowEditGroup }) => {
 			<span
 				aria-label="Edit project"
 				className="sidebar__project-edit"
-				onClick={() => setShowEditGroup(group)}
-				onKeyDown={() => setShowEditGroup(group)}
+				onClick={() => handleEditGroup(group)}
+				onKeyDown={() => handleEditGroup(group)}
 				tabIndex={0}
 				role="button"
 			>
@@ -79,13 +78,8 @@ const Group = ({ group, setGroup, showEditGroup, setShowEditGroup }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({
-	showEditGroup: state.data.showEditGroup,
-});
-
 const mapActionsToProps = {
 	setGroup,
-	setShowEditGroup,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(Group);
+export default connect(null, mapActionsToProps)(Group);
