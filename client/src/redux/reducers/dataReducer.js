@@ -2,20 +2,26 @@ import {
 	GET_GROUPS,
 	SET_GROUP,
 	ADD_GROUP,
+	UPDATE_GROUP,
+	SET_SHOW_EDIT_GROUP,
 	GET_PASSWORDS,
 	ADD_PASSWORD,
+	GET_PASSWORD,
+	UPDATE_PASSWORD,
 	SET_PASSWORD,
 } from "../types";
 
 const initialState = {
 	groups: [],
 	selectedGroup: null,
+	showEditGroup: null,
 	passwords: [],
 	selectedPasswords: [],
 	selectedPassword: null,
+	showEditPassword: null,
 };
 
-let index, passwordsCopy;
+let index, groupsCopy, passwordsCopy, selectedPasswordsCopy;
 
 const dataReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
@@ -28,7 +34,7 @@ const dataReducer = (state = initialState, { type, payload }) => {
 			passwordsCopy = state.passwords;
 			if (payload) {
 				passwordsCopy = state.passwords.filter(
-					(pass) => pass.groupId === payload
+					(pass) => pass.groupId === payload.id
 				);
 			}
 			return {
@@ -41,6 +47,21 @@ const dataReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				groups: [...state.groups, payload],
+			};
+		case UPDATE_GROUP:
+			groupsCopy = state.groups;
+			index = state.groups.findIndex((group) => group.id === payload.id);
+			groupsCopy[index] = payload;
+			return {
+				...state,
+				groups: groupsCopy,
+				selectedGroup: payload,
+			};
+		case SET_SHOW_EDIT_GROUP:
+			return {
+				...state,
+				showEditGroup: !!payload,
+				selectedGroup: payload ? payload : state.selectedGroup,
 			};
 		case GET_PASSWORDS:
 			return {
@@ -62,6 +83,27 @@ const dataReducer = (state = initialState, { type, payload }) => {
 				...state,
 				passwords: [...state.passwords, payload],
 				selectedPasswords: passwordsCopy,
+			};
+		case UPDATE_PASSWORD:
+			passwordsCopy = state.passwords;
+			index = state.passwords.findIndex((pass) => pass.id === payload.id);
+			passwordsCopy[index] = payload;
+			selectedPasswordsCopy = state.selectedPasswords;
+			index = state.selectedPasswords.findIndex(
+				(pass) => pass.id === payload.id
+			);
+			selectedPasswordsCopy[index] = payload;
+			return {
+				...state,
+				passwords: passwordsCopy,
+				selectedPasswords: selectedPasswordsCopy,
+				selectedPassword: payload,
+			};
+		case GET_PASSWORD:
+			return {
+				...state,
+				showEditPassword: true,
+				selectedPassword: payload,
 			};
 		case SET_PASSWORD:
 			index = state.passwords.findIndex((pass) => pass.id === payload);

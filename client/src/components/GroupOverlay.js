@@ -17,11 +17,11 @@ const GroupOverlay = ({
 								data-testid="project-overlay-action"
 								aria-label="Select the task project"
 								onClick={() => {
-									setGroup(group.id);
+									setGroup(group);
 									setShowGroupOverlay(false);
 								}}
 								onKeyDown={() => {
-									setGroup(group.id);
+									setGroup(group);
 									setShowGroupOverlay(false);
 								}}
 								tabIndex={0}

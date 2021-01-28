@@ -2,24 +2,14 @@ import { useEffect } from "react";
 import Group from "./Group";
 
 import { connect } from "react-redux";
-import { getGroups, setGroup } from "../redux/actions/dataActions";
+import { getGroups } from "../redux/actions/dataActions";
 
-const Groups = ({
-	groups,
-	selectedGroup,
-	getGroups,
-	setGroup,
-	activeValue = null,
-}) => {
+const Groups = ({ groups, selectedGroup, getGroups, activeValue = null }) => {
 	useEffect(() => {
 		getGroups();
 
 		// eslint-disable-next-line
 	}, []);
-
-	const selectGroup = (projectId) => {
-		setGroup(projectId);
-	};
 
 	const groupsMarkup =
 		groups.length > 0
@@ -28,23 +18,12 @@ const Groups = ({
 						key={group.id}
 						data-doc-id={group.docId}
 						className={
-							selectedGroup === group.id
+							selectedGroup?.id === group.id
 								? "active sidebar__project"
 								: "sidebar__project"
 						}
 					>
-						<div
-							data-testid="project-action"
-							aria-label={`Select ${group.name}`}
-							role="button"
-							tabIndex={0}
-							onClick={() => {
-								selectGroup(group.id);
-							}}
-							onKeyDown={() => {
-								selectGroup(group.id);
-							}}
-						>
+						<div>
 							<Group group={group} />
 						</div>
 					</li>
@@ -61,6 +40,5 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
 	getGroups,
-	setGroup,
 };
 export default connect(mapStateToProps, mapActionsToProps)(Groups);

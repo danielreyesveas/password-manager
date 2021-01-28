@@ -2,8 +2,12 @@ import {
 	GET_GROUPS,
 	SET_GROUP,
 	ADD_GROUP,
+	UPDATE_GROUP,
+	SET_SHOW_EDIT_GROUP,
 	GET_PASSWORDS,
 	ADD_PASSWORD,
+	GET_PASSWORD,
+	UPDATE_PASSWORD,
 	SET_PASSWORD,
 } from "../types";
 
@@ -22,6 +26,32 @@ export const getGroups = () => (dispatch) => {
 
 export const setGroup = (selectedGroup) => (dispatch) => {
 	dispatch({ type: SET_GROUP, payload: selectedGroup });
+};
+
+export const addGroup = (group) => (dispatch) => {
+	axios
+		.post("/add-group", group)
+		.then((response) => {
+			dispatch({ type: ADD_GROUP, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
+
+export const updateGroup = (group) => (dispatch) => {
+	axios
+		.post("/update-group", group)
+		.then((response) => {
+			dispatch({ type: UPDATE_GROUP, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
+
+export const setShowEditGroup = (show) => (dispatch) => {
+	dispatch({ type: SET_SHOW_EDIT_GROUP, payload: show });
 };
 
 export const getPasswords = () => (dispatch) => {
@@ -47,11 +77,22 @@ export const addPassword = (password) => (dispatch) => {
 		});
 };
 
-export const addGroup = (group) => (dispatch) => {
+export const updatePassword = (password) => (dispatch) => {
 	axios
-		.post("/add-group", group)
+		.post("/update-password", password)
 		.then((response) => {
-			dispatch({ type: ADD_GROUP, payload: response.data });
+			dispatch({ type: UPDATE_PASSWORD, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
+
+export const getPassword = (id) => (dispatch) => {
+	axios
+		.get(`get-password/${id}`)
+		.then((response) => {
+			dispatch({ type: GET_PASSWORD, payload: response.data });
 		})
 		.catch((error) => {
 			console.error(error);

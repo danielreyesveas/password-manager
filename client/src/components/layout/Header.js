@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaRegMoon, FaSun, FaKey, FaPlus } from "react-icons/fa";
 import AddPassword from "../AddPassword";
+import EditPassword from "../EditPassword";
 
 export default function Header({ darkMode, setDarkMode }) {
 	const [shouldShowMain, setShouldShowMain] = useState(false);
@@ -52,6 +53,8 @@ export default function Header({ darkMode, setDarkMode }) {
 				showQuickAddTask={showQuickAddTask}
 				setShowQuickAddTask={setShowQuickAddTask}
 			/>
+
+			<EditPassword />
 		</header>
 	);
 }

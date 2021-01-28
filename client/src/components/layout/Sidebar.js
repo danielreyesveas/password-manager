@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import AddGroup from "../AddGroup";
 import Groups from "../Groups";
 import { setGroup } from "../../redux/actions/dataActions";
+import EditGroup from "../EditGroup";
 
-const Sidebar = ({ selectedGroup, setGroup }) => {
+const Sidebar = ({ showEditGroup, selectedGroup, setGroup }) => {
 	const [showGroups, setShowGroups] = useState(true);
 
 	return (
@@ -44,16 +45,19 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 								tabIndex={0}
 								role="button"
 							>
-								<span>
-									<FaInbox />
+								<span className="sidebar__default-name">
+									<span>
+										<FaInbox />
+									</span>
+									All
 								</span>
-								<span>All</span>
 							</div>
 						</li>
 						{showGroups && <Groups />}
 					</ul>
 				</ul>
-				{showGroups && <AddGroup />}
+				{showGroups && !showEditGroup && <AddGroup />}
+				{showEditGroup && <EditGroup />}
 			</div>
 		</>
 	);
@@ -61,6 +65,7 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 
 const mapStateToProps = (state) => ({
 	selectedGroup: state.data.selectedGroup,
+	showEditGroup: state.data.showEditGroup,
 });
 
 const mapActionsToProps = {

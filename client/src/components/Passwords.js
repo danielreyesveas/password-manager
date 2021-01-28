@@ -24,8 +24,8 @@ const Passwords = ({
 							onClick={() => setPassword(password.id)}
 							className={
 								selectedPassword?.id === password.id
-									? "active"
-									: undefined
+									? "tasks__list_password active"
+									: "tasks__list_password"
 							}
 						>
 							{password.icon && (
@@ -62,4 +62,5 @@ const mapActionsToProps = {
 	getPasswords,
 	setPassword,
 };
+
 export default connect(mapStateToProps, mapActionsToProps)(Passwords);

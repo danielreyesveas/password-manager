@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 			groupId: {
 				type: DataTypes.INTEGER,
 			},
-			ecodedPassword: {
+			encodedPassword: {
 				type: DataTypes.VIRTUAL,
 				get() {
 					const decrypted = decrypt({
@@ -48,6 +48,17 @@ module.exports = (sequelize, DataTypes) => {
 					});
 					const pass = Array(decrypted.length + 1);
 					return pass.join("•");
+				},
+			},
+			decryptedPassword: {
+				type: DataTypes.VIRTUAL,
+				get() {
+					const decrypted = decrypt({
+						iv: this.iv,
+						password: this.password,
+					});
+
+					return decrypted;
 				},
 			},
 		},

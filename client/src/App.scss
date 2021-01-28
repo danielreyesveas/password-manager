@@ -60,6 +60,11 @@ h2 {
 	outline: none;
 }
 
+button:disabled {
+	cursor: not-allowed;
+	pointer-events: all !important;
+}
+
 // Variables
 $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
 	rgba(0, 0, 0, 0.1) 0px 4px 11px;
@@ -294,15 +299,30 @@ header {
 	}
 
 	li {
-		&:hover .sidebar__project-delete {
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: flex;
+		&:hover {
+			.sidebar__project-delete {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
+			.sidebar__project-edit {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
 		}
 	}
 
-	&__project {
+	&__default-name {
 		cursor: pointer;
+	}
+
+	&__project-name {
+		cursor: pointer;
+	}
+
+	&__project {
+		margin-bottom: 5px;
 
 		div:nth-child(1) {
 			padding: 5px 0;
@@ -318,6 +338,17 @@ header {
 		}
 
 		&-delete {
+			cursor: pointer;
+			margin-left: 5px;
+			display: none;
+
+			svg {
+				color: #cacaca;
+			}
+		}
+
+		&-edit {
+			cursor: pointer;
 			margin-left: auto;
 			display: none;
 
@@ -406,12 +437,12 @@ header {
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: flex;
-			cursor: pointer;
 			line-height: 1;
 			font-size: 15px;
 			padding-left: 0;
 			padding-right: 0;
 			border-radius: 5px;
+			margin-bottom: 5px;
 
 			div:nth-child(1) {
 				display: -webkit-box;
@@ -457,7 +488,7 @@ header {
 		padding: 10px;
 		top: 10px;
 		right: 0;
-		background-color: white;
+		background-color: #403f40;
 
 		p {
 			margin-top: 5px;
@@ -626,6 +657,26 @@ header {
 	overflow-y: auto;
 	position: relative;
 
+	&-delete {
+		cursor: pointer;
+		margin-left: 5px;
+		display: none;
+
+		svg {
+			color: #cacaca;
+		}
+	}
+
+	&-edit {
+		cursor: pointer;
+		margin-left: 20px;
+		display: none;
+
+		svg {
+			color: #cacaca;
+		}
+	}
+
 	&-field {
 		display: -webkit-box;
 		display: -ms-flexbox;
@@ -679,11 +730,18 @@ header {
 		margin-right: 40px;
 	}
 
-	&:hover .password-detail-actions {
-		cursor: pointer;
-		display: flex;
+	&:hover {
+		.password-detail-actions {
+			cursor: pointer;
+			display: flex;
+		}
+		.password-detail-delete {
+			display: inline;
+		}
+		.password-detail-edit {
+			display: inline;
+		}
 	}
-
 	&-actions {
 		margin-left: 10px;
 		display: none;
@@ -778,6 +836,22 @@ header {
 		margin-bottom: 20px;
 	}
 	input {
+		height: 2em;
+		line-height: normal;
+		color: inherit;
+		color: #f7f7f7;
+		background-color: #1e1e1e;
+		width: 80%;
+		border: 1px solid #ddd;
+		height: 35px;
+		padding-left: 10px;
+		padding-right: 10px;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+		border-radius: 4px;
+		margin-bottom: 20px;
+	}
+
+	select {
 		height: 2em;
 		line-height: normal;
 		color: inherit;
