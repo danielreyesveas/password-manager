@@ -73,6 +73,17 @@ $generic-bg: #34be5b;
 
 /* Mixins
 	 ============================================ */
+
+@mixin fa-icon {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 400;
+	font-style: normal;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	line-height: $base-line-height;
+}
+
 @mixin box-overlay() {
 	-webkit-box-shadow: $generic-box-shadow;
 	box-shadow: $generic-box-shadow;
@@ -752,6 +763,11 @@ header {
 		}
 	}
 }
+
+.generator-main {
+	min-width: 300px;
+}
+
 /* Add Task
 	 ============================================ */
 .add-task {
@@ -850,6 +866,22 @@ header {
 		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 		border-radius: 4px;
 		margin-bottom: 20px;
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		display: inline;
+		margin-right: 0.75em;
+
+		+ label {
+			@include fa-icon;
+			content: "fa-check-square";
+			display: inline-block;
+			width: 1.3em;
+			color: #f7f7f7;
+			vertical-align: bottom;
+			position: relative;
+		}
 	}
 
 	select {

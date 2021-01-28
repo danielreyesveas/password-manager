@@ -21,12 +21,34 @@ const DefaultCharRangesByPattern = {
 	0: CharRanges.ambiguous,
 };
 
-const getBytes = (len: number) => {
-	return Uint8Array;
+const getBytes = (len) => {
+	var Salsa20 = require("./salsa20"),
+		CryptoEngine = require("./crypto-engine");
+
+	var key = new Uint8Array(32),
+		nonce = new Uint8Array(8);
+	for (var q = 0; q < key.length; q++) {
+		key[q] = Math.random() * 0xff;
+	}
+	for (var j = 0; j < nonce.length; j++) {
+		nonce[q] = Math.random() * 0xff;
+	}
+	var algo = new Salsa20(key, nonce);
+	if (!len) {
+		return new Uint8Array(0);
+	}
+	algo.getBytes(Math.round(Math.random() * len) + 1);
+	var result = algo.getBytes(len);
+	var cryptoBytes = CryptoEngine.random(len);
+	for (var i = cryptoBytes.length - 1; i >= 0; --i) {
+		result[i] ^= cryptoBytes[i];
+	}
+	return result;
 };
 
 const PasswordGenerator = {
 	generate(opts) {
+		opts.length = Number(opts.length);
 		if (!opts || typeof opts.length !== "number" || opts.length < 0) {
 			return "";
 		}
@@ -57,6 +79,7 @@ const PasswordGenerator = {
 			const char = range ? range[rand % range.length] : patternChar;
 			chars.push(char);
 		}
+
 		return chars.join("");
 	},
 
