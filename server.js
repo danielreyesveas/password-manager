@@ -22,6 +22,10 @@ const {
 	decryptPassword,
 } = require("./routes/passwords");
 
+app.get("/api", (req, res) => {
+	res.send("Hello Friend...");
+});
+
 app.get("/api/groups", getGroups);
 app.post("/api/add-group", addGroup);
 app.post("/api/update-group", updateGroup);
