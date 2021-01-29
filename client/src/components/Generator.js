@@ -10,6 +10,15 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import { withStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 
+const GreenCheckbox = withStyles({
+	root: {
+	  '&$checked': {
+		color: "#34be5b",
+	  },
+	},
+	checked: {},
+  })(Checkbox);
+
 const LengthSlider = withStyles({
 	root: {
 		color: "#34be5b",
@@ -64,7 +73,7 @@ const emptyOptions = {
 const Generator = ({ groups, selectedGroup, addPassword }) => {
 	const copyRef = useRef(null);
 	const [options, setOptions] = useState(initialOptions);
-	const [password, setPassword] = useState("");
+	const [generatedPassword, setGeneratedPassword] = useState("");
 	const [pronounceable, setPronounceable] = useState(false);
 	const { showGenerator, setShowGenerator } = useUI();
 
@@ -96,7 +105,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 	};
 
 	const handleGenerate = () => {
-		setPassword(PasswordGenerator.generate(options));
+		setGeneratedPassword(PasswordGenerator.generate(options));
 	};
 
 	const handleCopy = () => {
@@ -153,7 +162,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 				<FormGroup row>
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -168,7 +177,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -183,7 +192,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -198,7 +207,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -215,7 +224,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 				<FormGroup row>
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -230,7 +239,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -245,7 +254,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -260,7 +269,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 					<FormControlLabel
 						control={
-							<Checkbox
+							<GreenCheckbox
 								icon={
 									<CheckBoxOutlineBlankIcon fontSize="small" />
 								}
@@ -278,11 +287,11 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 				<FormGroup row className="generated-password">
 					<input
-						name="password"
+						name="generatedPassword"
 						type="text"
 						ref={copyRef}
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						value={generatedPassword}
+						onChange={(e) => setGeneratedPassword(e.target.value)}
 					/>
 				</FormGroup>
 
