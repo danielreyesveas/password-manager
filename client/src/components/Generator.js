@@ -124,18 +124,18 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 	return showGenerator ? (
 		<div
-			className="add-password add-password__overlay"
-			data-testid="add-password-comp"
+			className="password-generator password-generator__overlay"
+			data-testid="password-generator-comp"
 		>
 			<div
-				className="add-password__main generator-main"
-				data-testid="add-password-main"
+				className="password-generator__main generator-main"
+				data-testid="password-generator-main"
 			>
-				<div data-testid="quick-add-password">
+				<div data-testid="quick-password-generator">
 					<span
 						aria-label="Cancel adding task"
-						className="add-password__cancel-x"
-						data-testid="add-password-quick-cancel"
+						className="password-generator__cancel-x"
+						data-testid="password-generator-quick-cancel"
 						onClick={() => setShowGenerator(false)}
 						onKeyDown={() => setShowGenerator(false)}
 						tabIndex={0}
@@ -299,8 +299,8 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 				</FormGroup>
 
 				<button
-					className="add-password__submit"
-					data-testid="add-password"
+					className="password-generator__submit"
+					data-testid="password-generator"
 					type="button"
 					onClick={() => handleCopy()}
 				>
@@ -308,8 +308,8 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 				</button>
 				<span
 					aria-label="Cancel adding a task"
-					className="add-password__cancel"
-					data-testid="add-password-main-cancel"
+					className="password-generator__cancel"
+					data-testid="password-generator-main-cancel"
 					onClick={() => setShowGenerator(false)}
 					onKeyDown={() => setShowGenerator(false)}
 					tabIndex={0}

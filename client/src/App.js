@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 import Content from "./components/layout/Content";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -23,6 +24,8 @@ function App({ darkModeDefault = true }) {
 					<Header darkMode={darkMode} setDarkMode={setDarkMode} />
 
 					<Content />
+
+					<Footer />
 				</main>
 			</UIProvider>
 		</Provider>

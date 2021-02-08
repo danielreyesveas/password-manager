@@ -17,6 +17,7 @@ $bg: #8aacec;
 $primary: #f6f6f6;
 $secondary: #f1f1f1;
 $text: #303050;
+$text-secondary: #5c5c5c;
 $button: #8aacec;
 $hover: #fff;
 
@@ -24,6 +25,7 @@ $dark-bg: #34be5b;
 $dark-primary: #2d2d2e;
 $dark-secondary: #1e1e1e;
 $dark-text: #f7f7f7;
+$dark-text-secondary: #e4e4e4;
 $dark-button: #34be5b;
 $dark-hover: #403f40;
 
@@ -197,6 +199,7 @@ button:disabled {
 	.sidebar,
 	.container,
 	.add-password__main,
+	.password-generator__main,
 	.settings__darkmode button {
 		color: $dark-text !important;
 	}
@@ -212,7 +215,8 @@ button:disabled {
 		background-color: $dark-primary !important;
 	}
 	.container,
-	.add-password__main {
+	.add-password__main,
+	.password-generator__main {
 		background-color: $dark-secondary !important;
 	}
 
@@ -223,8 +227,9 @@ button:disabled {
 		color: $dark-text !important;
 	}
 
-	.add-password__submit {
-		background-color: $dark-button !important;
+	.add-password__submit,
+	.password-generator__submit {
+		background-color: $dark-bg !important;
 		color: $dark-text !important;
 	}
 
@@ -250,25 +255,34 @@ button:disabled {
 	.nav-toggle.active i::after {
 		background: $dark-text !important;
 	}
+
 	.nav-toggle.dark.active i::before,
 	.nav-toggle.dark.active i::after {
 		background: $dark-text !important;
 	}
+
 	.nav-toggle i {
 		color: $dark-text !important;
 		background: $dark-text !important;
 	}
+
 	.nav-toggle i::before,
 	.nav-toggle i::after {
 		background: $dark-text !important;
 	}
+
 	.nav-toggle.dark i {
 		color: $dark-text !important;
 		background: $dark-text !important;
 	}
+
 	.nav-toggle.dark i::before,
 	.nav-toggle.dark i::after {
 		background: $dark-text !important;
+	}
+
+	.logo {
+		color: $dark-text-secondary !important;
 	}
 }
 
@@ -775,6 +789,8 @@ header {
 	align-items: center;
 	grid-template-columns: 1fr auto;
 	max-width: 100vw;
+	height: 100vh;
+
 	margin: auto;
 }
 
@@ -783,7 +799,8 @@ header {
 .passwords {
 	flex: 1;
 	margin-left: 266px;
-	min-height: calc(100vh);
+
+	margin-top: 44px;
 	vertical-align: top;
 	padding: 40px 40px 84px 40px;
 
@@ -902,15 +919,16 @@ header {
 .container {
 	color: $text;
 	display: flex;
-	margin-top: 44px;
 	background-color: $primary;
+	height: 100%;
+	bottom: 0;
 }
 
 .password-detail {
 	flex: 1;
 	display: none;
+	margin-top: 44px;
 	margin-left: 20px;
-	min-height: calc(100vh);
 	vertical-align: top;
 	padding: 40px 40px 84px 40px;
 	margin-left: 0;
@@ -960,7 +978,7 @@ header {
 
 	&-edit {
 		cursor: pointer;
-		margin-left: 20px;
+		margin-left: 140px;
 		display: none;
 
 		svg {
@@ -1042,65 +1060,57 @@ header {
 	}
 }
 
-.generator-main {
-	min-width: 300px;
-}
-
-/* Add Task
-	 ============================================ */
-.add-password {
+.password-generator {
 	&__overlay {
 		background: rgba(102, 102, 102, 0.5);
-		position: absolute;
+		position: fixed;
 		margin: auto;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+		height: 100vh;
+		width: 100vw;
 		z-index: 2000;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
 		-webkit-transition: opacity 0.2s ease-in;
 		transition: opacity 0.2s ease-in;
-		height: calc(100vh);
 		overflow-x: auto;
-
-		.add-password__main {
-			@include mq("900px") {
-				width: 50%;
-			}
-
-			@include mq("600px") {
-				width: 80%;
-			}
-
-			color: $text;
-			overflow-y: auto;
-			margin-bottom: 20px;
-			border-radius: 5px;
-			background-color: $primary;
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			padding: 20px 30px;
-			-webkit-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-
-			.header {
-				font-size: 15px;
-				font-weight: 600;
-				margin-bottom: 20px;
-			}
-		}
-
-		.add-password__cancel-x {
-			cursor: pointer;
-			float: right;
-			font-size: 12px;
-			top: 0;
-		}
 	}
 
 	&__main {
-		position: relative;
+		@include mq("900px") {
+			width: 50%;
+		}
+
+		@include mq("600px") {
+			width: 80%;
+		}
+
+		color: $text;
+		overflow-y: auto;
+		margin-bottom: 20px;
+		border-radius: 5px;
+		background-color: $primary;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		padding: 20px 30px;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		width: 500px;
+
+		.header {
+			font-size: 15px;
+			font-weight: 600;
+			margin-bottom: 20px;
+		}
+	}
+
+	&__cancel-x {
+		cursor: pointer;
+		float: right;
+		font-size: 12px;
+		top: 0;
 	}
 
 	&__project,
@@ -1120,7 +1130,6 @@ header {
 	}
 
 	textarea {
-		height: 2em;
 		line-height: normal;
 		background-color: $secondary;
 		color: $text;
@@ -1134,7 +1143,6 @@ header {
 		margin-bottom: 20px;
 	}
 	input {
-		height: 2em;
 		line-height: normal;
 		background-color: $secondary;
 		color: $text;
@@ -1164,7 +1172,166 @@ header {
 	}
 
 	select {
-		height: 2em;
+		line-height: normal;
+		background-color: $secondary;
+		color: $text;
+		width: 80%;
+		border: 1px solid #ddd;
+		height: 35px;
+		padding-left: 10px;
+		padding-right: 10px;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+		border-radius: 4px;
+		margin-bottom: 20px;
+	}
+
+	&__cancel,
+	&__submit {
+		@include no-select;
+	}
+
+	&__cancel {
+		@include cancel();
+	}
+
+	&__submit {
+		@include btn("90px");
+	}
+}
+
+.generator-main {
+	z-index: 2000;
+}
+
+.footer {
+	position: fixed;
+	right: 30px;
+	bottom: 30px;
+	width: 100%;
+	color: white;
+	text-align: right;
+}
+
+.logo {
+	cursor: pointer;
+	color: $text-secondary;
+}
+
+/* Add Task
+	 ============================================ */
+.add-password {
+	&__overlay {
+		background: rgba(102, 102, 102, 0.5);
+		position: fixed;
+		margin: auto;
+		height: 100vh;
+		width: 100vw;
+		z-index: 2000;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		-webkit-transition: opacity 0.2s ease-in;
+		transition: opacity 0.2s ease-in;
+		overflow-x: auto;
+
+		.add-password__cancel-x {
+			cursor: pointer;
+			float: right;
+			font-size: 12px;
+			top: 0;
+		}
+	}
+
+	&__main {
+		@include mq("900px") {
+			width: 400px;
+		}
+
+		@include mq("600px") {
+			width: 300px;
+			margin-top: 30px;
+			padding: 20px 20px;
+		}
+
+		color: $text;
+		overflow-y: auto;
+		border-radius: 5px;
+		width: 400px;
+		background-color: $primary;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		padding: 20px 30px;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+
+		.header {
+			font-size: 15px;
+			font-weight: 600;
+			margin-bottom: 20px;
+		}
+	}
+
+	&__project,
+	&__date {
+		cursor: pointer;
+		float: right;
+		margin: 20px 10px;
+	}
+
+	&__project {
+		margin-right: 0;
+	}
+	label {
+		display: block;
+		font-size: 0.85rem;
+		margin-bottom: 0.75em;
+	}
+
+	textarea {
+		line-height: normal;
+		background-color: $secondary;
+		color: $text;
+		width: 80%;
+		border: 1px solid #ddd;
+		height: 50px;
+		padding-left: 10px;
+		padding-right: 10px;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+		border-radius: 4px;
+		margin-bottom: 20px;
+	}
+	input {
+		line-height: normal;
+		background-color: $secondary;
+		color: $text;
+		width: 80%;
+		border: 1px solid #ddd;
+		height: 35px;
+		padding-left: 10px;
+		padding-right: 10px;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+		border-radius: 4px;
+		margin-bottom: 20px;
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		display: inline;
+		margin-right: 0.75em;
+
+		+ label {
+			@include fa-icon;
+			content: "fa-check-square";
+			display: inline-block;
+			width: 1.3em;
+			vertical-align: bottom;
+			position: relative;
+		}
+	}
+
+	select {
 		line-height: normal;
 		background-color: $secondary;
 		color: $text;
