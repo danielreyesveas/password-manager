@@ -281,6 +281,10 @@ button:disabled {
 		background: $dark-text !important;
 	}
 
+	.nav-toggle.active i {
+		background: transparent !important;
+	}
+
 	.logo {
 		color: $dark-text-secondary !important;
 	}
