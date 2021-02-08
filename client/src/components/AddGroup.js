@@ -25,7 +25,7 @@ const AddGroup = ({ addGroup }) => {
 						className="add-project__name"
 						data-testid="project-name"
 						type="text"
-						placeholder="Name your group"
+						placeholder="Nombre"
 					/>
 					<button
 						className="add-project__submit"
@@ -33,7 +33,7 @@ const AddGroup = ({ addGroup }) => {
 						onClick={() => handleAddGroup()}
 						data-testid="add-project-submit"
 					>
-						Add
+						Agregar
 					</button>
 					<span
 						aria-label="Cancel adding project"
@@ -44,7 +44,7 @@ const AddGroup = ({ addGroup }) => {
 						role="button"
 						tabIndex={0}
 					>
-						Cancel
+						Cancelar
 					</span>
 				</div>
 			)}
@@ -58,7 +58,7 @@ const AddGroup = ({ addGroup }) => {
 					role="button"
 					tabIndex={0}
 				>
-					<span className="add-project__plus">+</span> Group
+					<span className="add-project__plus">+</span> Grupo
 				</span>
 			)}
 		</div>

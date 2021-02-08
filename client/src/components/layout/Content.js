@@ -6,8 +6,10 @@ const Content = () => {
 	return (
 		<section className="content">
 			<Sidebar />
-			<Passwords />
-			<PasswordDetail />
+			<div className="container">
+				<Passwords />
+				<PasswordDetail />
+			</div>
 		</section>
 	);
 };

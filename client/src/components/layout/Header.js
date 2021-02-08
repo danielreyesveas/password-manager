@@ -5,19 +5,31 @@ import { useUI } from "../../context";
 import Generator from "../Generator";
 
 export default function Header({ darkMode, setDarkMode }) {
-	const { setShowAddPassword, setShowGenerator } = useUI();
+	const {
+		showSidebar,
+		setShowSidebar,
+		setShowAddPassword,
+		setShowGenerator,
+	} = useUI();
 
 	return (
 		<header className="header" data-testid="header">
 			<nav>
-				<div className="logo" onClick={() => setShowGenerator(true)}>
+				{/* <div className="logo" onClick={() => setShowGenerator(true)}>
 					<FaKey />
+				</div> */}
+				<div
+					className={showSidebar ? "nav-toggle active" : "nav-toggle"}
+					onClick={() => setShowSidebar(!showSidebar)}
+				>
+					<i></i>
 				</div>
+
 				<div className="settings">
 					<ul>
 						<li className="settings__add">
 							<button
-								data-testid="quick-add-task-action"
+								data-testid="quick-add-password-action"
 								aria-label="Quick add task"
 								onClick={() => {
 									setShowAddPassword(true);

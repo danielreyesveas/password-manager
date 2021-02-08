@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 export const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
+	const [showSidebar, setShowSidebar] = useState(false);
 	const [showAddGroup, setShowAddGroup] = useState(false);
 	const [showEditGroup, setShowEditGroup] = useState(false);
 	const [showAddPassword, setShowAddPassword] = useState(false);
@@ -10,6 +11,8 @@ export const UIProvider = ({ children }) => {
 	const [showGenerator, setShowGenerator] = useState(false);
 
 	const values = {
+		showSidebar,
+		setShowSidebar,
 		showAddGroup,
 		setShowAddGroup,
 		showEditGroup,

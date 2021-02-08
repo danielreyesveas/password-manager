@@ -10,7 +10,8 @@ function App({ darkModeDefault = true }) {
 	const [darkMode, setDarkMode] = useState(darkModeDefault);
 	const host = window.location.host;
 
-	axios.defaults.baseURL = `https://${host}/api/`;
+	//axios.defaults.baseURL = `https://${host}/api/`;
+	axios.defaults.baseURL = `http://localhost:5000/api/`;
 
 	return (
 		<Provider store={store}>

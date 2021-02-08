@@ -62,17 +62,22 @@ const EditPassword = ({
 	return (
 		<div
 			className={
-				showEditPassword ? "add-task add-task__overlay" : "add-task"
+				showEditPassword
+					? "add-password add-password__overlay"
+					: "add-password"
 			}
-			data-testid="add-task-comp"
+			data-testid="add-password-comp"
 		>
 			{showEditPassword && (
-				<div className="add-task__main" data-testid="add-task-main">
-					<div data-testid="quick-add-task">
+				<div
+					className="add-password__main"
+					data-testid="add-password-main"
+				>
+					<div data-testid="quick-add-password">
 						<span
 							aria-label="Cancel adding task"
-							className="add-task__cancel-x"
-							data-testid="add-task-quick-cancel"
+							className="add-password__cancel-x"
+							data-testid="add-password-quick-cancel"
 							onClick={() => {
 								setShowGroupOverlay(false);
 								setShowEditPassword(false);
@@ -86,7 +91,7 @@ const EditPassword = ({
 						>
 							X
 						</span>
-						<h2 className="header">Edit Password</h2>
+						<h2 className="header">Editar Contraseña</h2>
 					</div>
 
 					<GroupOverlay
@@ -94,77 +99,77 @@ const EditPassword = ({
 						showGroupOverlay={showGroupOverlay}
 						setShowGroupOverlay={setShowGroupOverlay}
 					/>
-					<label>Title:</label>
+					<label>Nombre:</label>
 					<input
 						aria-label="Enter the title"
-						className="add-task__name"
-						data-testid="add-task-content"
+						className="add-password__name"
+						data-testid="add-password-content"
 						type="text"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 					/>
-					<label>Group:</label>
+					<label>Grupo:</label>
 					<select
-						className="add-task__group"
+						className="add-password__group"
 						onChange={(e) => setGroup(e.target.value)}
 						value={group}
 					>
-						<option value="">All</option>
+						<option value="">Todos</option>
 						{groups?.map((group) => (
 							<option key={group.id} value={group.id}>
 								{group.name}
 							</option>
 						))}
 					</select>
-					<label>User:</label>
+					<label>Usuario:</label>
 					<input
 						aria-label="Enter your username"
-						className="add-task__content"
-						data-testid="add-task-content"
+						className="add-password__content"
+						data-testid="add-password-content"
 						type="text"
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
 					/>
-					<label>Website:</label>
+					<label>Sitio web:</label>
 					<input
 						aria-label="Enter your website"
-						className="add-task__content"
-						data-testid="add-task-content"
+						className="add-password__content"
+						data-testid="add-password-content"
 						type="text"
 						value={website}
 						onChange={(e) => setWebsite(e.target.value)}
 					/>
-					<label>Password:</label>
+					<label>Contraseña:</label>
 					<input
 						aria-label="Enter your password"
-						className="add-task__content"
-						data-testid="add-task-content"
+						className="add-password__content"
+						data-testid="add-password-content"
 						type="password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					<label>Notes:</label>
+					<label>Notas:</label>
 					<textarea
 						aria-label="Enter your notes"
-						className="add-task__content"
+						className="add-password__content"
 						rows="4"
-						data-testid="add-task-content"
+						data-testid="add-password-content"
 						onChange={(e) => setNotes(e.target.value)}
 						value={notes}
 					></textarea>
 					<button
-						className="add-task__submit"
-						data-testid="add-task"
+						className="add-password__submit"
+						data-testid="add-password"
 						type="button"
 						disabled={name === "" || password === ""}
 						onClick={() => handleUpdatePassword()}
 					>
-						Save
+						Guardar
 					</button>
 					<span
 						aria-label="Cancel adding a task"
-						className="add-task__cancel"
-						data-testid="add-task-main-cancel"
+						className="add-password__cancel"
+						data-testid="add-password-main-cancel"
 						onClick={() => {
 							setShowEditPassword(false);
 							setShowGroupOverlay(false);
@@ -176,10 +181,10 @@ const EditPassword = ({
 						tabIndex={0}
 						role="button"
 					>
-						Cancel
+						Cancelar
 					</span>
 					{/* <span
-						className="add-task__project"
+						className="add-password__project"
 						data-testid="show-project-overlay"
 						onClick={() => setShowGroupOverlay(!showGroupOverlay)}
 						onKeyDown={() => setShowGroupOverlay(!showGroupOverlay)}

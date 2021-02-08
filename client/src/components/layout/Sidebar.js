@@ -9,12 +9,15 @@ import EditGroup from "../EditGroup";
 import { useUI } from "../../context";
 
 const Sidebar = ({ selectedGroup, setGroup }) => {
-	const { showEditGroup } = useUI();
+	const { showSidebar, setShowSidebar, showEditGroup } = useUI();
 	const [showGroups, setShowGroups] = useState(true);
 
 	return (
 		<>
-			<div className="sidebar" data-testid="sidebar">
+			<div
+				className={showSidebar ? "sidebar show-sidebar" : "sidebar"}
+				data-testid="sidebar"
+			>
 				<ul className="sidebar__generic">
 					<div
 						className="sidebar__middle"
@@ -31,7 +34,7 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 								}
 							/>
 						</span>
-						<h2>Groups</h2>
+						<h2>Grupos</h2>
 					</div>
 
 					<ul className="sidebar__projects">
@@ -40,9 +43,11 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 								data-testid="inbox"
 								onClick={() => {
 									setGroup(null);
+									setShowSidebar(false);
 								}}
 								onKeyDown={() => {
 									setGroup(null);
+									setShowSidebar(false);
 								}}
 								tabIndex={0}
 								role="button"
@@ -51,7 +56,7 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 									<span>
 										<FaInbox />
 									</span>
-									All
+									Todos
 								</span>
 							</div>
 						</li>

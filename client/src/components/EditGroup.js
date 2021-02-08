@@ -24,7 +24,7 @@ const EditGroup = ({ selectedGroup, updateGroup }) => {
 					className="add-project__name"
 					data-testid="project-name"
 					type="text"
-					placeholder="Name your group"
+					placeholder="Nombre"
 				/>
 				<button
 					className="add-project__submit"
@@ -32,7 +32,7 @@ const EditGroup = ({ selectedGroup, updateGroup }) => {
 					onClick={() => handleUpdateGroup()}
 					data-testid="add-project-submit"
 				>
-					Update
+					Guardar
 				</button>
 				<span
 					aria-label="Cancel adding project"
@@ -43,7 +43,7 @@ const EditGroup = ({ selectedGroup, updateGroup }) => {
 					role="button"
 					tabIndex={0}
 				>
-					Cancel
+					Cancelar
 				</span>
 			</div>
 		</div>

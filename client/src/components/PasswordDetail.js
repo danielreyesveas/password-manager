@@ -1,11 +1,18 @@
 import axios from "axios";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { FaCopy, FaEye, FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
+import {
+	FaAngleLeft,
+	FaCopy,
+	FaEye,
+	FaEyeSlash,
+	FaPen,
+	FaTrash,
+} from "react-icons/fa";
 import { connect } from "react-redux";
-import { getPassword } from "../redux/actions/dataActions";
+import { getPassword, setPassword } from "../redux/actions/dataActions";
 import { useUI } from "../context";
 
-const PasswordDetail = ({ password, getPassword }) => {
+const PasswordDetail = ({ password, getPassword, setPassword }) => {
 	const [decryptedPassword, setDecryptedPassword] = useState("");
 	const [passwordField, setPasswordField] = useState(null);
 	const { setShowEditPassword } = useUI();
@@ -74,7 +81,23 @@ const PasswordDetail = ({ password, getPassword }) => {
 	};
 
 	const passwordMarkup = password ? (
-		<div className="password-detail">
+		<div
+			className={
+				password
+					? "password-detail password-detail__active-password"
+					: "password-detail"
+			}
+		>
+			<span
+				className="password-detail-back"
+				aria-label="Volver"
+				onClick={() => setPassword(null)}
+				onKeyDown={() => setPassword(null)}
+				tabIndex={0}
+				role="button"
+			>
+				<FaAngleLeft /> Volver
+			</span>
 			<div>
 				<span>
 					{password.icon && (
@@ -113,16 +136,13 @@ const PasswordDetail = ({ password, getPassword }) => {
 					{showConfirm && (
 						<div className="project-delete-modal">
 							<span className="project-delete-modal__inner">
-								<p>
-									Are you sure you want to delete this
-									project?
-								</p>
+								<p>¿Estás seguro de eliminarla?</p>
 								<button
 									type="button"
 									onClick={() => deleteProject(password.id)}
 									onKeyDown={() => deleteProject(password.id)}
 								>
-									Delete
+									Eliminar
 								</button>
 								<span
 									aria-label="Cancel adding project, do not delete"
@@ -133,7 +153,7 @@ const PasswordDetail = ({ password, getPassword }) => {
 									tabIndex={0}
 									role="button"
 								>
-									Cancel
+									Cancelar
 								</span>
 							</span>
 						</div>
@@ -200,6 +220,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
 	getPassword,
+	setPassword,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(PasswordDetail);

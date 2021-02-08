@@ -7,6 +7,26 @@ $base-border-radius: 2px;
 $base-spacing: $base-line-height * 1em;
 $small-spacing: $base-spacing / 2;
 $tiny-spacing: $small-spacing / 2;
+
+// Variables
+$generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
+	rgba(0, 0, 0, 0.1) 0px 4px 11px;
+$generic-border: 1px solid #6b6b6b;
+
+$bg: #8aacec;
+$primary: #f6f6f6;
+$secondary: #f1f1f1;
+$text: #303050;
+$button: #8aacec;
+$hover: #fff;
+
+$dark-bg: #34be5b;
+$dark-primary: #2d2d2e;
+$dark-secondary: #1e1e1e;
+$dark-text: #f7f7f7;
+$dark-button: #34be5b;
+$dark-hover: #403f40;
+
 // General Settings
 html {
 	-webkit-box-sizing: border-box;
@@ -65,12 +85,6 @@ button:disabled {
 	pointer-events: all !important;
 }
 
-// Variables
-$generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
-	rgba(0, 0, 0, 0.1) 0px 4px 11px;
-$generic-border: 1px solid #6b6b6b;
-$generic-bg: #34be5b;
-
 /* Mixins
 	 ============================================ */
 
@@ -123,8 +137,8 @@ $generic-bg: #34be5b;
 
 @mixin btn($width) {
 	width: $width;
-	background-color: $generic-bg;
-	color: #fff !important;
+	background-color: $button;
+	color: $text;
 	border: 1px solid transparent;
 	margin-right: 5px;
 	margin-top: 10px;
@@ -141,7 +155,6 @@ $generic-bg: #34be5b;
 }
 
 @mixin cancel() {
-	color: #ddd;
 	cursor: pointer;
 	font-size: 14px;
 	margin: 2px 5px;
@@ -181,30 +194,225 @@ $generic-bg: #34be5b;
 /* Darkmode
 	 ============================================ */
 .darkmode {
-	header {
-		-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-		background-color: #282828;
-		border-color: transparent;
+	.sidebar,
+	.container,
+	.add-password__main,
+	.settings__darkmode button {
+		color: $dark-text !important;
+	}
+
+	.sidebar__middle span,
+	.add-project__plus,
+	.settings__add button {
+		color: $dark-bg !important;
+	}
+
+	header,
+	.sidebar {
+		background-color: $dark-primary !important;
+	}
+	.container,
+	.add-password__main {
+		background-color: $dark-secondary !important;
+	}
+
+	.add-password select,
+	input,
+	textarea {
+		background-color: $dark-secondary !important;
+		color: $dark-text !important;
+	}
+
+	.add-password__submit {
+		background-color: $dark-button !important;
+		color: $dark-text !important;
+	}
+
+	.project-delete-modal__inner,
+	.sidebar__project.active,
+	.sidebar__project:hover,
+	.sidebar__generic li.active,
+	.sidebar__generic li:hover {
+		background-color: $dark-hover !important;
+	}
+
+	.passwords__list li.active,
+	.passwords__list li:hover {
+		background-color: $dark-hover !important;
+		color: $dark-text !important;
+	}
+
+	.passwords__list_password.active .passwords__list-descr {
+		color: $dark-text !important;
+	}
+
+	.nav-toggle.active i::before,
+	.nav-toggle.active i::after {
+		background: $dark-text !important;
+	}
+	.nav-toggle.dark.active i::before,
+	.nav-toggle.dark.active i::after {
+		background: $dark-text !important;
+	}
+	.nav-toggle i {
+		color: $dark-text !important;
+		background: $dark-text !important;
+	}
+	.nav-toggle i::before,
+	.nav-toggle i::after {
+		background: $dark-text !important;
+	}
+	.nav-toggle.dark i {
+		color: $dark-text !important;
+		background: $dark-text !important;
+	}
+	.nav-toggle.dark i::before,
+	.nav-toggle.dark i::after {
+		background: $dark-text !important;
 	}
 }
 
 /* Header
 	 ============================================ */
+
+.nav-toggle {
+	cursor: pointer;
+	text-decoration: none;
+}
+.nav-toggle.active i::before,
+.nav-toggle.active i::after {
+	background: $text;
+}
+.nav-toggle.dark.active i::before,
+.nav-toggle.dark.active i::after {
+	background: $text;
+}
+.nav-toggle:hover,
+.nav-toggle:focus,
+.nav-toggle:active {
+	outline: none;
+	border-bottom: none !important;
+}
+.nav-toggle i {
+	position: relative;
+	display: inline-block;
+	width: 20px;
+	height: 2px;
+	border-radius: 3px;
+	color: $text;
+	font: bold 14px/0.4 Helvetica;
+	text-transform: uppercase;
+	text-indent: -55px;
+	background: $text;
+	-webkit-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+.nav-toggle i::before,
+.nav-toggle i::after {
+	content: "";
+	width: 20px;
+	height: 2px;
+	border-radius: 3px;
+	background: $text;
+	position: absolute;
+	left: 0;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-ms-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+.nav-toggle.dark i {
+	position: relative;
+	color: $text;
+	background: $text;
+	-webkit-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+.nav-toggle.dark i::before,
+.nav-toggle.dark i::after {
+	background: $text;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-ms-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+
+.nav-toggle i::before {
+	top: -7px;
+}
+
+.nav-toggle i::after {
+	bottom: -7px;
+}
+
+.nav-toggle:hover i::before {
+	top: -10px;
+}
+
+.nav-toggle:hover i::after {
+	bottom: -10px;
+}
+
+.nav-toggle.active i {
+	background: transparent;
+}
+
+.nav-toggle.active i::before {
+	top: 0;
+	-webkit-transform: rotateZ(45deg);
+	-moz-transform: rotateZ(45deg);
+	-ms-transform: rotateZ(45deg);
+	-o-transform: rotateZ(45deg);
+	transform: rotateZ(45deg);
+}
+
+.nav-toggle.active i::after {
+	bottom: 0;
+	-webkit-transform: rotateZ(-45deg);
+	-moz-transform: rotateZ(-45deg);
+	-ms-transform: rotateZ(-45deg);
+	-o-transform: rotateZ(-45deg);
+	transform: rotateZ(-45deg);
+}
+
+.nav-toggle {
+	position: fixed;
+	left: 5px;
+	top: -2px;
+	z-index: 1500;
+	cursor: pointer;
+	opacity: 1;
+	visibility: hidden;
+	padding: 14px;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-ms-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+@media (max-width: 600px) {
+	.nav-toggle {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
 header {
-	border-bottom: solid 1px #ca2100;
-	background-color: $generic-bg;
+	background-color: $primary;
+	border-bottom: $generic-border;
 	-webkit-transition: height 200ms ease-in;
 	transition: height 200ms ease-in;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 	height: 44px;
-	z-index: 400;
+	z-index: 1002;
 	position: fixed;
 	top: 0;
 	width: 100%;
 
-	@include mq("900px") {
+	@include mq("992px") {
 		padding: 0 10px;
 	}
 
@@ -262,11 +470,12 @@ header {
 
 					&.settings__add {
 						margin-right: 15px;
+						margin-top: 2px;
 						font-size: 30px;
 
 						button {
 							@include transparent-button();
-							color: #34be5b;
+							color: $bg;
 							cursor: pointer;
 						}
 					}
@@ -274,7 +483,7 @@ header {
 					&.settings__darkmode {
 						button {
 							@include transparent-button();
-							color: white;
+							color: $text;
 							cursor: pointer;
 							display: -webkit-box;
 							display: -ms-flexbox;
@@ -294,21 +503,60 @@ header {
 
 /* Sidebar
 	 ============================================ */
+
+.sidebar {
+	color: $text;
+	padding-top: 2em;
+	padding-bottom: 40px;
+	padding-left: 2em;
+	padding-right: 2em;
+	position: fixed;
+	bottom: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	overflow-y: hidden;
+	z-index: 1000;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	border-right: 1px solid #e6e6e6;
+
+	@media (max-width: 600px) {
+		& {
+			-moz-transform: translateX(-320px);
+			-webkit-transform: translateX(-320px);
+			-ms-transform: translateX(-320px);
+			-o-transform: translateX(-320px);
+			transform: translateX(-320px);
+			padding-top: 0;
+		}
+	}
+}
+
+.show-sidebar {
+	-moz-transform: translateX(0);
+	-webkit-transform: translateX(0);
+	-ms-transform: translateX(0);
+	-o-transform: translateX(0);
+	transform: translateX(0);
+	width: 320px;
+	z-index: 1000;
+	position: fixed;
+}
+
 .sidebar {
 	@include no-select();
 	width: 266px;
 	height: calc(100vh);
-	padding-top: 74px;
+	padding-top: 60px;
 	position: fixed;
-	overflow-y: auto;
-	overflow-y: auto;
+	overflow-x: hidden;
+	overflow-y: hidden;
 	border-right: $generic-border;
-	left: 0;
-	background-color: #2d2d2e;
-
-	@include mq("900px") {
-		display: none;
-	}
+	background-color: $primary;
 
 	li {
 		&:hover {
@@ -371,7 +619,7 @@ header {
 
 		&.active,
 		&:hover {
-			background-color: white;
+			background-color: $text;
 		}
 
 		&:nth-child(1) {
@@ -425,7 +673,7 @@ header {
 		cursor: pointer;
 
 		span {
-			color: #34be5b;
+			color: $bg;
 			margin-right: 10px;
 
 			svg.hidden-projects {
@@ -436,7 +684,6 @@ header {
 
 		h2 {
 			margin: 0;
-			color: #f7f7f7;
 			font-size: 15px;
 			padding-bottom: 20px;
 		}
@@ -445,7 +692,6 @@ header {
 	&__generic {
 		li {
 			list-style-type: none;
-			color: #f7f7f7;
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: flex;
@@ -482,7 +728,7 @@ header {
 
 			&.active,
 			&:hover {
-				background-color: #403f40;
+				background-color: $hover;
 			}
 		}
 	}
@@ -500,7 +746,7 @@ header {
 		padding: 10px;
 		top: 10px;
 		right: 0;
-		background-color: #403f40;
+		background-color: $hover;
 
 		p {
 			margin-top: 5px;
@@ -534,28 +780,34 @@ header {
 
 /* Tasks
 	 ============================================ */
-.tasks {
-	width: 400px;
+.passwords {
 	flex: 1;
 	margin-left: 266px;
-	background-color: #1e1e1e;
-	border-right: $generic-border;
 	min-height: calc(100vh);
 	vertical-align: top;
-	padding-left: 40px;
-	padding-right: 40px;
-	padding-top: 80px;
-	padding-bottom: 84px;
-	display: flex;
-	align-items: stretch;
-	justify-content: flex-start;
-	flex-direction: column;
-	overflow-y: auto;
-	position: relative;
+	padding: 40px 40px 84px 40px;
 
-	@include mq("900px") {
+	&__active-password {
+		display: none;
+	}
+
+	@media (min-width: 900px) {
+		display: flex;
+		width: 40%;
+		align-items: stretch;
+		justify-content: flex-start;
+		flex-direction: column;
+		overflow-y: auto;
+		position: relative;
+
+		&__active-password {
+			border-right: $generic-border;
+		}
+	}
+
+	@include mq("600px") {
 		margin-left: 0;
-		width: auto;
+		width: 40%;
 	}
 
 	h2 {
@@ -564,7 +816,7 @@ header {
 		margin: 0 30px 20px 0;
 	}
 
-	.add-task {
+	.add-password {
 		margin-top: 20px;
 	}
 
@@ -574,8 +826,6 @@ header {
 			display: -ms-flexbox;
 			display: block;
 			line-height: 18px;
-			color: #f7f7f7;
-			padding-top: 10px;
 			padding-bottom: 10px;
 			font-size: 14px;
 			list-style-type: none;
@@ -586,15 +836,16 @@ header {
 			text-overflow: ellipsis;
 			overflow-y: auto;
 			border-radius: 5px;
+			max-width: 300px;
 
 			&:hover {
-				background-color: #403f40;
-				color: #c5c5c5;
+				background-color: $hover;
+				color: $text;
 			}
 
 			&.active {
-				background-color: #403f40;
-				color: white;
+				background-color: $hover;
+				color: $text;
 			}
 
 			.checkbox-holder {
@@ -613,7 +864,6 @@ header {
 				.checkbox {
 					cursor: pointer;
 					border-color: gray;
-					color: #343434;
 					height: 16px;
 					width: 16px;
 					display: block;
@@ -638,36 +888,65 @@ header {
 
 		&-descr {
 			font-size: 0.8em;
-			color: #5e5e5e;
 			display: block;
 			text-overflow: ellipsis;
 			overflow: hidden;
 			margin-bottom: $tiny-spacing;
 			.active & {
-				color: white;
+				color: $text;
 			}
 		}
 	}
 }
 
+.container {
+	color: $text;
+	display: flex;
+	margin-top: 44px;
+	background-color: $primary;
+}
+
 .password-detail {
-	width: 656px;
 	flex: 1;
+	display: none;
 	margin-left: 20px;
-	background-color: #1e1e1e;
-	border-right: $generic-border;
 	min-height: calc(100vh);
 	vertical-align: top;
-	padding-left: 40px;
-	padding-right: 40px;
-	padding-top: 80px;
-	padding-bottom: 84px;
-	display: flex;
-	align-items: stretch;
-	justify-content: flex-start;
-	flex-direction: column;
-	overflow-y: auto;
-	position: relative;
+	padding: 40px 40px 84px 40px;
+	margin-left: 0;
+
+	&__active-password {
+		display: flex;
+		align-items: stretch;
+		justify-content: flex-start;
+		flex-direction: column;
+		overflow-y: auto;
+		position: relative;
+	}
+	@media (min-width: 600px) {
+		margin-left: 266px;
+	}
+
+	@media (min-width: 900px) {
+		display: flex;
+		align-items: stretch;
+		justify-content: flex-start;
+		flex-direction: column;
+		overflow-y: auto;
+		position: relative;
+		width: 60%;
+		margin-left: 0;
+	}
+
+	&-back {
+		margin-bottom: 30px;
+		display: flex;
+		cursor: pointer;
+
+		@media (min-width: 900px) {
+			display: none;
+		}
+	}
 
 	&-delete {
 		cursor: pointer;
@@ -694,7 +973,6 @@ header {
 		display: -ms-flexbox;
 		display: flex;
 		line-height: 18px;
-		color: #f7f7f7;
 		padding-top: 10px;
 		padding-bottom: 10px;
 		font-size: 14px;
@@ -770,7 +1048,7 @@ header {
 
 /* Add Task
 	 ============================================ */
-.add-task {
+.add-password {
 	&__overlay {
 		background: rgba(102, 102, 102, 0.5);
 		position: absolute;
@@ -783,16 +1061,22 @@ header {
 		-webkit-transition: opacity 0.2s ease-in;
 		transition: opacity 0.2s ease-in;
 		height: calc(100vh);
+		overflow-x: auto;
 
-		.add-task__main {
+		.add-password__main {
 			@include mq("900px") {
-				width: 90%;
+				width: 50%;
 			}
 
+			@include mq("600px") {
+				width: 80%;
+			}
+
+			color: $text;
 			overflow-y: auto;
 			margin-bottom: 20px;
 			border-radius: 5px;
-			background-color: #2d2d2e;
+			background-color: $primary;
 			position: absolute;
 			left: 50%;
 			top: 50%;
@@ -807,9 +1091,8 @@ header {
 			}
 		}
 
-		.add-task__cancel-x {
+		.add-password__cancel-x {
 			cursor: pointer;
-			color: gray;
 			float: right;
 			font-size: 12px;
 			top: 0;
@@ -824,7 +1107,6 @@ header {
 	&__date {
 		cursor: pointer;
 		float: right;
-		color: gray;
 		margin: 20px 10px;
 	}
 
@@ -840,9 +1122,8 @@ header {
 	textarea {
 		height: 2em;
 		line-height: normal;
-		color: inherit;
-		color: #f7f7f7;
-		background-color: #1e1e1e;
+		background-color: $secondary;
+		color: $text;
 		width: 80%;
 		border: 1px solid #ddd;
 		height: 50px;
@@ -855,9 +1136,8 @@ header {
 	input {
 		height: 2em;
 		line-height: normal;
-		color: inherit;
-		color: #f7f7f7;
-		background-color: #1e1e1e;
+		background-color: $secondary;
+		color: $text;
 		width: 80%;
 		border: 1px solid #ddd;
 		height: 35px;
@@ -878,7 +1158,6 @@ header {
 			content: "fa-check-square";
 			display: inline-block;
 			width: 1.3em;
-			color: #f7f7f7;
 			vertical-align: bottom;
 			position: relative;
 		}
@@ -887,9 +1166,8 @@ header {
 	select {
 		height: 2em;
 		line-height: normal;
-		color: inherit;
-		color: #f7f7f7;
-		background-color: #1e1e1e;
+		background-color: $secondary;
+		color: $text;
 		width: 80%;
 		border: 1px solid #ddd;
 		height: 35px;
@@ -914,23 +1192,22 @@ header {
 	}
 }
 
-.add-task__shallow,
+.add-password__shallow,
 .add-project {
 	@include no-select;
 	margin-bottom: 20px;
 }
 
-.add-task__plus,
+.add-password__plus,
 .add-project__plus {
-	color: #34be5b;
+	color: $bg;
 	font-size: 18px;
 }
 
-.add-task__text,
+.add-password__text,
 .add-project__text {
 	cursor: pointer;
 	display: inline-block;
-	color: #ddd;
 	font-size: 14px;
 	margin-left: 10px;
 }

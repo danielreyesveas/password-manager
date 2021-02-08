@@ -6,7 +6,7 @@ import { setGroup } from "../redux/actions/dataActions";
 import { useUI } from "../context";
 
 const Group = ({ group, setGroup }) => {
-	const { setShowEditGroup } = useUI();
+	const { showSidebar, setShowSidebar, setShowEditGroup } = useUI();
 	const { id, name } = group;
 	const [showConfirm, setShowConfirm] = useState(false);
 
@@ -23,8 +23,14 @@ const Group = ({ group, setGroup }) => {
 				aria-label={`Select ${group.name}`}
 				role="button"
 				tabIndex={0}
-				onClick={() => setGroup(group)}
-				onKeyDown={() => setGroup(group)}
+				onClick={() => {
+					setGroup(group);
+					setShowSidebar(false);
+				}}
+				onKeyDown={() => {
+					setGroup(group);
+					setShowSidebar(false);
+				}}
 				className="sidebar__project-name"
 			>
 				<span className="sidebar__dot">•</span>
@@ -53,13 +59,13 @@ const Group = ({ group, setGroup }) => {
 				{showConfirm && (
 					<div className="project-delete-modal">
 						<span className="project-delete-modal__inner">
-							<p>Are you sure you want to delete this project?</p>
+							<p>¿Estás seguro de eliminarlo?</p>
 							<button
 								type="button"
 								onClick={() => deleteProject(id)}
 								onKeyDown={() => deleteProject(id)}
 							>
-								Delete
+								Eliminar
 							</button>
 							<span
 								aria-label="Cancel adding project, do not delete"
@@ -68,7 +74,7 @@ const Group = ({ group, setGroup }) => {
 								tabIndex={0}
 								role="button"
 							>
-								Cancel
+								Cancelar
 							</span>
 						</span>
 					</div>

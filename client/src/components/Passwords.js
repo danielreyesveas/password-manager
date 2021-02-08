@@ -24,19 +24,19 @@ const Passwords = ({
 							onClick={() => setPassword(password.id)}
 							className={
 								selectedPassword?.id === password.id
-									? "tasks__list_password active"
-									: "tasks__list_password"
+									? "passwords__list_password active"
+									: "passwords__list_password"
 							}
 						>
 							{password.icon && (
 								<i
-									className={`${password.icon} tasks__list-icon`}
+									className={`${password.icon} passwords__list-icon`}
 								></i>
 							)}
-							<span className="tasks__list-title">
+							<span className="passwords__list-title">
 								{password.name}
 							</span>
-							<span className="tasks__list-descr thin">
+							<span className="passwords__list-descr thin">
 								{password.username}
 							</span>
 						</li>
@@ -45,8 +45,15 @@ const Passwords = ({
 			: null;
 
 	return (
-		<div className="tasks" data-testid="tasks">
-			<ul className="tasks__list">{passwordsMarkup}</ul>
+		<div
+			className={
+				selectedPassword
+					? "passwords passwords__active-password"
+					: "passwords"
+			}
+			data-testid="passwords"
+		>
+			<ul className="passwords__list">{passwordsMarkup}</ul>
 
 			{/* <AddPassword /> */}
 		</div>

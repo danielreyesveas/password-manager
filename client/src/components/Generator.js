@@ -12,12 +12,12 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 const GreenCheckbox = withStyles({
 	root: {
-	  '&$checked': {
-		color: "#34be5b",
-	  },
+		"&$checked": {
+			color: "#34be5b",
+		},
 	},
 	checked: {},
-  })(Checkbox);
+})(Checkbox);
 
 const LengthSlider = withStyles({
 	root: {
@@ -123,16 +123,19 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 	}, [options]);
 
 	return showGenerator ? (
-		<div className="add-task add-task__overlay" data-testid="add-task-comp">
+		<div
+			className="add-password add-password__overlay"
+			data-testid="add-password-comp"
+		>
 			<div
-				className="add-task__main generator-main"
-				data-testid="add-task-main"
+				className="add-password__main generator-main"
+				data-testid="add-password-main"
 			>
-				<div data-testid="quick-add-task">
+				<div data-testid="quick-add-password">
 					<span
 						aria-label="Cancel adding task"
-						className="add-task__cancel-x"
-						data-testid="add-task-quick-cancel"
+						className="add-password__cancel-x"
+						data-testid="add-password-quick-cancel"
 						onClick={() => setShowGenerator(false)}
 						onKeyDown={() => setShowGenerator(false)}
 						tabIndex={0}
@@ -140,12 +143,12 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 					>
 						X
 					</span>
-					<h2 className="header">Generate Password</h2>
+					<h2 className="header">Generar Contraseña</h2>
 				</div>
 
 				<FormGroup row>
 					<LengthLabel component="label">
-						Length: {options.length}
+						Longitud: {options.length}
 					</LengthLabel>
 
 					<LengthSlider
@@ -281,7 +284,7 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 								}
 							/>
 						}
-						label="Pronounceable"
+						label="Pronunciable"
 					/>
 				</FormGroup>
 
@@ -296,23 +299,23 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 				</FormGroup>
 
 				<button
-					className="add-task__submit"
-					data-testid="add-task"
+					className="add-password__submit"
+					data-testid="add-password"
 					type="button"
 					onClick={() => handleCopy()}
 				>
-					Copy
+					Copiar
 				</button>
 				<span
 					aria-label="Cancel adding a task"
-					className="add-task__cancel"
-					data-testid="add-task-main-cancel"
+					className="add-password__cancel"
+					data-testid="add-password-main-cancel"
 					onClick={() => setShowGenerator(false)}
 					onKeyDown={() => setShowGenerator(false)}
 					tabIndex={0}
 					role="button"
 				>
-					Close
+					Cerrar
 				</span>
 			</div>
 		</div>

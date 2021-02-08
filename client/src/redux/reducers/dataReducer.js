@@ -21,7 +21,11 @@ const initialState = {
 	showEditPassword: null,
 };
 
-let index, groupsCopy, passwordsCopy, selectedPasswordsCopy;
+let index,
+	groupsCopy,
+	passwordsCopy,
+	selectedPasswordsCopy,
+	selectedPasswordCopy;
 
 const dataReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
@@ -106,10 +110,17 @@ const dataReducer = (state = initialState, { type, payload }) => {
 				selectedPassword: payload,
 			};
 		case SET_PASSWORD:
-			index = state.passwords.findIndex((pass) => pass.id === payload);
+			if (payload) {
+				index = state.passwords.findIndex(
+					(pass) => pass.id === payload
+				);
+				selectedPasswordCopy = state.passwords[index];
+			} else {
+				selectedPasswordCopy = null;
+			}
 			return {
 				...state,
-				selectedPassword: state.passwords[index],
+				selectedPassword: selectedPasswordCopy,
 			};
 		default:
 			return state;
