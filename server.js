@@ -12,6 +12,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const { login, register, loginWithGoogle } = require("./routes/auth");
+const { auth } = require("./middleware/auth");
+
 const { getGroups, addGroup, updateGroup } = require("./routes/groups");
 
 const {
@@ -26,14 +29,18 @@ app.get("/api", (req, res) => {
 	res.send("Hello Friend...");
 });
 
-app.get("/api/groups", getGroups);
-app.post("/api/add-group", addGroup);
-app.post("/api/update-group", updateGroup);
+app.post("/api/login", login);
+app.post("/api/login-with-google", loginWithGoogle);
+app.post("/api/register", register);
 
-app.get("/api/passwords", getPasswords);
-app.get("/api/get-password/:id", getPassword);
-app.post("/api/add-password", addPassword);
-app.post("/api/update-password", updatePassword);
-app.post("/api/decrypt-password", decryptPassword);
+app.get("/api/groups", auth, getGroups);
+app.post("/api/add-group", auth, addGroup);
+app.post("/api/update-group", auth, updateGroup);
+
+app.get("/api/passwords", auth, getPasswords);
+app.get("/api/get-password/:id", auth, getPassword);
+app.post("/api/add-password", auth, addPassword);
+app.post("/api/update-password", auth, updatePassword);
+app.post("/api/decrypt-password", auth, decryptPassword);
 
 app.listen(PORT, console.log(`Listen on port: ${PORT}`));

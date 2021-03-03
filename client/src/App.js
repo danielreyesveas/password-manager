@@ -3,32 +3,56 @@ import axios from "axios";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Content from "./components/layout/Content";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import Auth from "./components/Auth";
 import { UIProvider } from "./context";
+import jwt from "jwt-decode";
+import store from "./redux/store";
+import { useSelector } from "react-redux";
+
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
+const token = localStorage.getItem("token");
+
+if (token) {
+	const decodedToken = jwt(token);
+	const expiresAt = new Date(decodedToken.exp * 1000);
+
+	if (new Date() > expiresAt) {
+		localStorage.removeItem("token");
+	} else {
+		store.dispatch({ type: "SET_USER", payload: decodedToken });
+		axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	}
+} else {
+	console.log("NO TOKEN");
+}
 
 function App({ darkModeDefault = true }) {
-	const [darkMode, setDarkMode] = useState(darkModeDefault);
-	const host = window.location.host;
+	const user = useSelector((state: any) => state.user.user);
 
-	//axios.defaults.baseURL = `https://${host}/api/`;
-	axios.defaults.baseURL = `http://localhost:5000/api/`;
+	const [darkMode, setDarkMode] = useState(darkModeDefault);
 
 	return (
-		<Provider store={store}>
-			<UIProvider>
-				<main
-					data-testid="application"
-					className={darkMode ? "darkmode" : undefined}
-				>
-					<Header darkMode={darkMode} setDarkMode={setDarkMode} />
+		<UIProvider>
+			<main
+				data-testid="application"
+				className={darkMode ? "darkmode" : undefined}
+			>
+				{user ? (
+					<>
+						<Header darkMode={darkMode} setDarkMode={setDarkMode} />
 
-					<Content />
+						<Content />
 
-					<Footer />
-				</main>
-			</UIProvider>
-		</Provider>
+						<Footer />
+					</>
+				) : (
+					<>
+						<Header darkMode={darkMode} setDarkMode={setDarkMode} />
+						<Auth />
+					</>
+				)}
+			</main>
+		</UIProvider>
 	);
 }
 

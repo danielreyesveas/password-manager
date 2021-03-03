@@ -8,3 +8,6 @@ export const ADD_PASSWORD = "ADD_PASSWORD";
 export const GET_PASSWORD = "GET_PASSWORD";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 export const SET_PASSWORD = "SET_PASSWORD";
+
+export const SET_USER = "SET_USER";
+export const SET_UNAUTHENTICATED = "SET_UNAUTHENTICATED";

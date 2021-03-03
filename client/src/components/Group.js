@@ -6,7 +6,7 @@ import { setGroup } from "../redux/actions/dataActions";
 import { useUI } from "../context";
 
 const Group = ({ group, setGroup }) => {
-	const { showSidebar, setShowSidebar, setShowEditGroup } = useUI();
+	const { setShowSidebar, setShowEditGroup } = useUI();
 	const { id, name } = group;
 	const [showConfirm, setShowConfirm] = useState(false);
 

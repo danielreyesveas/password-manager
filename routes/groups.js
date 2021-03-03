@@ -1,8 +1,10 @@
 const { Group } = require("../models");
 
-exports.getGroups = async (requets, response) => {
+exports.getGroups = async (request, response) => {
+	const user = response.locals.user;
+
 	try {
-		const data = await Group.findAll();
+		const data = await Group.findAll({ where: { userId: user.id } });
 		return response.status(200).json(data);
 	} catch (error) {
 		return response.status(500).json({ error: error });
@@ -10,11 +12,13 @@ exports.getGroups = async (requets, response) => {
 };
 
 exports.addGroup = async (request, response) => {
+	const user = response.locals.user;
 	const { name } = request.body;
 
 	try {
 		const data = await Group.create({
 			name,
+			userId: user.id,
 		});
 		return response.status(200).json(data);
 	} catch (error) {

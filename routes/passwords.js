@@ -3,6 +3,7 @@ const { Password } = require("../models");
 const { encrypt, decrypt } = require("../utils/EncryptionHandler");
 
 exports.addPassword = async (request, response) => {
+	const user = response.locals.user;
 	const { name, groupId, website, username, notes } = request.body;
 	const { iv, password } = encrypt(request.body.password);
 
@@ -15,6 +16,7 @@ exports.addPassword = async (request, response) => {
 			notes,
 			iv,
 			password,
+			userId: user.id,
 		});
 		return response.status(200).json(data);
 	} catch (error) {
@@ -57,8 +59,11 @@ exports.updatePassword = async (request, response) => {
 };
 
 exports.getPasswords = async (request, response) => {
+	const user = response.locals.user;
+
 	try {
 		const data = await Password.findAll({
+			where: { userId: user.id },
 			attributes: { exclude: ["decryptedPassword"] },
 		});
 		return response.status(200).json(data);

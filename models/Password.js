@@ -12,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Password.init(
 		{
+			uuid: {
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4,
+			},
+			userId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,
