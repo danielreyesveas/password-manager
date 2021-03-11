@@ -18,7 +18,20 @@ exports.addPassword = async (request, response) => {
 			password,
 			userId: user.id,
 		});
-		return response.status(200).json(data);
+		return response.status(200).json({
+			id: data.id,
+			name: data.name,
+			password: data.password,
+			iv: data.iv,
+			notes: data.notes,
+			userId: data.userId,
+			username: data.username,
+			uuid: data.uuid,
+			website: data.website,
+			groupId: data.groupId,
+			icon: data.icon,
+			encodedPassword: data.encodedPassword,
+		});
 	} catch (error) {
 		return response.status(500).json({ error: error });
 	}
