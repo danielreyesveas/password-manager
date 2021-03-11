@@ -1,4 +1,4 @@
-# 🗝️ PassManager
+# 🗝️ PassManager 
 
 <br />
 
@@ -10,15 +10,19 @@ The encryption is done using [crypto](https://nodejs.org/api/crypto.html), the [
 <div align="center"><img src="https://resources.reciclatusanimales.com/image/passmanager.png" width=700></div>
 
 <br />
+
 ## Features 📋
 * Password encryption.
 * Manage groups of passwords.
 * Password generator.
 * Login with Google.
 
+
 <br />
 
+
 ## Setup 🚀
+
 
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
@@ -55,12 +59,11 @@ Live Demo: [https://password-manager.reciclatusanimales.com/](https://password-m
 <br />
 
 ## Built with 🛠️
-
--   [Expres.js](http://www.dropwizard.io/1.0.2/docs/) - v4.17.1
--   [Sequelize](http://www.dropwizard.io/1.0.2/docs/) - v6.5.0
--   [ReactJS](http://www.dropwizard.io/1.0.2/docs/) - v17.0.1
--   [Redux](http://www.dropwizard.io/1.0.2/docs/) - v4.0.5
--   [Firebase](http://www.dropwizard.io/1.0.2/docs/) - v8.2.9
+* [Expres.js](http://www.dropwizard.io/1.0.2/docs/) - v4.17.1
+* [Sequelize](http://www.dropwizard.io/1.0.2/docs/) - v6.5.0
+* [ReactJS](http://www.dropwizard.io/1.0.2/docs/) - v17.0.1
+* [Redux](http://www.dropwizard.io/1.0.2/docs/) - v4.0.5
+* [Firebase](http://www.dropwizard.io/1.0.2/docs/) - v8.2.9
 
 <br />
 
