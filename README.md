@@ -1,7 +1,5 @@
 # 🗝️ PassManager 
 
-<br />
-
 PassManager, as its very name indicates, manages all your passwords, encrypting them on the server and reversing the process to lets you use it.
 The encryption is done using [crypto](https://nodejs.org/api/crypto.html), the [Node.js](https://nodejs.org/en/download/) library with a secret char key of 32 characters stored on the server.
 
@@ -16,7 +14,6 @@ The encryption is done using [crypto](https://nodejs.org/api/crypto.html), the [
 * Manage groups of passwords.
 * Password generator.
 * Login with Google.
-
 
 <br />
 
@@ -37,7 +34,7 @@ $ cd password-manager
 $ npm install
 
 # Go into the client folder
-$ cd client
+$ cd ../client
 
 # Install client dependencies
 $ npm install
@@ -59,14 +56,13 @@ Live Demo: [https://password-manager.reciclatusanimales.com/](https://password-m
 <br />
 
 ## Built with 🛠️
-* [Expres.js](http://www.dropwizard.io/1.0.2/docs/) - v4.17.1
-* [Sequelize](http://www.dropwizard.io/1.0.2/docs/) - v6.5.0
-* [ReactJS](http://www.dropwizard.io/1.0.2/docs/) - v17.0.1
-* [Redux](http://www.dropwizard.io/1.0.2/docs/) - v4.0.5
-* [Firebase](http://www.dropwizard.io/1.0.2/docs/) - v8.2.9
+* [Expres.js](https://expressjs.com/) - v4.17.1
+* [Sequelize](https://sequelize.org/) - v6.5.0
+* [ReactJS](https://reactjs.org/) - v17.0.1
+* [Redux](https://redux.js.org/) - v4.0.5
+* [Firebase](https://firebase.google.com/) - v8.2.9
 
 <br />
-
 <br />
 
 ⌨️ por <a href="https://github.com/danielreyesveas">Daniel Reyes Veas</a>
