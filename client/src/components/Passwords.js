@@ -1,27 +1,34 @@
 import { useEffect } from "react";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPasswords, setPassword } from "../redux/actions/dataActions";
 
-const Passwords = ({
-	passwords,
-	selectedPassword,
-	getPasswords,
-	setPassword,
-}) => {
-	useEffect(() => {
-		getPasswords();
+export default function Passwords() {
+	const passwords = useSelector((state) => state.data.selectedPasswords);
+	const selectedPassword = useSelector(
+		(state) => state.data.selectedPassword
+	);
+	const dispatch = useDispatch();
 
+	useEffect(() => {
+		dispatch(getPasswords());
 		// eslint-disable-next-line
 	}, []);
 
-	const passwordsMarkup =
-		passwords.length > 0
-			? passwords.map((password) => {
-					return (
+	return (
+		<div
+			className={
+				selectedPassword
+					? "passwords passwords__active-password"
+					: "passwords"
+			}
+		>
+			<ul className="passwords__list">
+				{passwords.length > 0 &&
+					passwords.map((password) => (
 						<li
 							key={password.id}
-							onClick={() => setPassword(password.id)}
+							onClick={() => dispatch(setPassword(password.id))}
 							className={
 								selectedPassword?.id === password.id
 									? "passwords__list_password active"
@@ -40,34 +47,8 @@ const Passwords = ({
 								{password.username}
 							</span>
 						</li>
-					);
-			  })
-			: null;
-
-	return (
-		<div
-			className={
-				selectedPassword
-					? "passwords passwords__active-password"
-					: "passwords"
-			}
-			data-testid="passwords"
-		>
-			<ul className="passwords__list">{passwordsMarkup}</ul>
-
-			{/* <AddPassword /> */}
+					))}
+			</ul>
 		</div>
 	);
-};
-
-const mapStateToProps = (state) => ({
-	passwords: state.data.selectedPasswords,
-	selectedPassword: state.data.selectedPassword,
-});
-
-const mapActionsToProps = {
-	getPasswords,
-	setPassword,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(Passwords);
+}

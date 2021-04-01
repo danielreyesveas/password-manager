@@ -1,61 +1,85 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { connect } from "react-redux";
 import { updateGroup } from "../redux/actions/dataActions";
 import { useUI } from "../context";
+import { useDispatch, useSelector } from "react-redux";
 
-const EditGroup = ({ selectedGroup, updateGroup }) => {
-	const { setShowEditGroup } = useUI();
+export default function EditGroup() {
+	const modalRef = useRef(null);
+	const dispatch = useDispatch();
+	const selectedGroup = useSelector((state) => state.data.selectedGroup);
+	const { showEditGroup, setShowEditGroup } = useUI();
 	const [name, setName] = useState(selectedGroup?.name);
 
 	const handleUpdateGroup = () => {
 		if (name === "") return;
-		updateGroup({ id: selectedGroup.id, name });
+		dispatch(updateGroup({ id: selectedGroup.id, name }));
 		setName("");
 		setShowEditGroup(null);
 	};
 
+	useEffect(() => {
+		const handleOutsideClick = (event) => {
+			if (!modalRef.current?.contains(event.target)) {
+				if (!showEditGroup) return;
+				setShowEditGroup(false);
+			}
+		};
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("click", handleOutsideClick);
+		}
+
+		if (typeof window !== "undefined") {
+			return () =>
+				window.removeEventListener("click", handleOutsideClick);
+		}
+	}, [showEditGroup, setShowEditGroup]);
+
+	useEffect(() => {
+		const handleEscape = (event) => {
+			if (!showEditGroup) return;
+
+			if (event.key === "Escape") {
+				setShowEditGroup(false);
+			}
+		};
+
+		document.addEventListener("keyup", handleEscape);
+		return () => document.removeEventListener("keyup", handleEscape);
+	}, [showEditGroup, setShowEditGroup]);
+
 	return (
-		<div className="add-project" data-testid="add-project">
+		<div className="add-project" ref={modalRef}>
 			<div className="add-project__input">
 				<input
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					className="add-project__name"
-					data-testid="project-name"
 					type="text"
 					placeholder="Nombre"
 				/>
-				<button
-					className="add-project__submit"
-					type="button"
-					onClick={() => handleUpdateGroup()}
-					data-testid="add-project-submit"
-				>
-					Guardar
-				</button>
-				<span
-					aria-label="Cancel adding project"
-					className="add-project__cancel"
-					data-testid="hide-project-overlay"
-					onClick={() => setShowEditGroup(null)}
-					onKeyDown={() => setShowEditGroup(null)}
-					role="button"
-					tabIndex={0}
-				>
-					Cancelar
-				</span>
+
+				<div className="add-project__btns">
+					<span
+						aria-label="Cancelar"
+						className="add-project__cancel"
+						onClick={() => setShowEditGroup(null)}
+						onKeyDown={() => setShowEditGroup(null)}
+						role="button"
+						tabIndex={0}
+					>
+						Cancelar
+					</span>
+					<button
+						className="add-project__submit"
+						type="button"
+						onClick={() => handleUpdateGroup()}
+					>
+						Guardar
+					</button>
+				</div>
 			</div>
 		</div>
 	);
-};
-
-const mapStateToProps = (state) => ({
-	selectedGroup: state.data.selectedGroup,
-});
-
-const mapActionsToProps = {
-	updateGroup,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(EditGroup);
+}

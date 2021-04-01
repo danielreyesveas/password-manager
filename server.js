@@ -15,7 +15,12 @@ app.use(express.json());
 const { login, register, loginWithGoogle } = require("./routes/auth");
 const { auth } = require("./middleware/auth");
 
-const { getGroups, addGroup, updateGroup } = require("./routes/groups");
+const {
+	getGroups,
+	addGroup,
+	updateGroup,
+	deleteGroup,
+} = require("./routes/groups");
 
 const {
 	getPasswords,
@@ -23,6 +28,7 @@ const {
 	addPassword,
 	updatePassword,
 	decryptPassword,
+	deletePassword,
 } = require("./routes/passwords");
 
 app.get("/api", (req, res) => {
@@ -36,11 +42,13 @@ app.post("/api/register", register);
 app.get("/api/groups", auth, getGroups);
 app.post("/api/add-group", auth, addGroup);
 app.post("/api/update-group", auth, updateGroup);
+app.post("/api/delete-group", auth, deleteGroup);
 
 app.get("/api/passwords", auth, getPasswords);
 app.get("/api/get-password/:id", auth, getPassword);
 app.post("/api/add-password", auth, addPassword);
 app.post("/api/update-password", auth, updatePassword);
 app.post("/api/decrypt-password", auth, decryptPassword);
+app.post("/api/delete-password", auth, deletePassword);
 
 app.listen(PORT, console.log(`Listen on port: ${PORT}`));

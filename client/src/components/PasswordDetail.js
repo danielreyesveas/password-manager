@@ -8,14 +8,17 @@ import {
 	FaPen,
 	FaTrash,
 } from "react-icons/fa";
-import { connect } from "react-redux";
 import { getPassword, setPassword } from "../redux/actions/dataActions";
 import { useUI } from "../context";
+import { useDispatch, useSelector } from "react-redux";
 
-const PasswordDetail = ({ password, getPassword, setPassword }) => {
+export default function PasswordDetail() {
+	const password = useSelector((state) => state.data.selectedPassword);
+	const dispatch = useDispatch();
+
 	const [decryptedPassword, setDecryptedPassword] = useState("");
 	const [passwordField, setPasswordField] = useState(null);
-	const { setShowEditPassword } = useUI();
+	const { setShowEditPassword, setShowDeletePassword } = useUI();
 	const copyRef = useRef(null);
 
 	useLayoutEffect(() => {
@@ -35,10 +38,6 @@ const PasswordDetail = ({ password, getPassword, setPassword }) => {
 		copyRef.current.select();
 		document.execCommand("copy");
 	};
-
-	const deleteProject = (id) => {};
-
-	const [showConfirm, setShowConfirm] = useState(false);
 
 	const handleCopyPassword = () => {
 		if (!decryptedPassword) {
@@ -80,7 +79,19 @@ const PasswordDetail = ({ password, getPassword, setPassword }) => {
 		}
 	};
 
-	const passwordMarkup = password ? (
+	const handleEditPassword = () => {
+		dispatch(getPassword(password.id));
+		setShowEditPassword(true);
+	};
+
+	const handleDeletePassword = () => {
+		dispatch(setPassword(password));
+		setShowDeletePassword(true);
+	};
+
+	if (!password) return null;
+
+	return (
 		<div
 			className={
 				password
@@ -91,82 +102,54 @@ const PasswordDetail = ({ password, getPassword, setPassword }) => {
 			<span
 				className="password-detail-back"
 				aria-label="Volver"
-				onClick={() => setPassword(null)}
-				onKeyDown={() => setPassword(null)}
+				onClick={() => dispatch(setPassword(null))}
+				onKeyDown={() => dispatch(setPassword(null))}
 				tabIndex={0}
 				role="button"
 			>
 				<FaAngleLeft /> Volver
 			</span>
 			<div>
-				<span>
-					{password.icon && (
-						<i
-							className={`${password.icon} password-detail-icon`}
-						></i>
-					)}
-					{password.name}
-				</span>
-				<span
-					aria-label="Edit project"
-					className="password-detail-edit"
-					onClick={() => {
-						getPassword(password.id);
-						setShowEditPassword(true);
-					}}
-					onKeyDown={() => {
-						getPassword(password.id);
-						setShowEditPassword(true);
-					}}
-					tabIndex={0}
-					role="button"
-				>
-					<FaPen />
-				</span>
-				<span
-					aria-label="Confirm deletion of project"
-					className="password-detail-delete"
-					data-testid="delete-project"
-					onClick={() => setShowConfirm(!showConfirm)}
-					onKeyDown={() => setShowConfirm(!showConfirm)}
-					tabIndex={0}
-					role="button"
-				>
-					<FaTrash />
-					{showConfirm && (
-						<div className="project-delete-modal">
-							<span className="project-delete-modal__inner">
-								<p>¿Estás seguro de eliminarla?</p>
-								<button
-									type="button"
-									onClick={() => deleteProject(password.id)}
-									onKeyDown={() => deleteProject(password.id)}
-								>
-									Eliminar
-								</button>
-								<span
-									aria-label="Cancel adding project, do not delete"
-									onClick={() => setShowConfirm(!showConfirm)}
-									onKeyDown={() =>
-										setShowConfirm(!showConfirm)
-									}
-									tabIndex={0}
-									role="button"
-								>
-									Cancelar
-								</span>
-							</span>
-						</div>
-					)}
-				</span>
+				<div className="password-detail__title">
+					<div>
+						{password.icon && (
+							<i
+								className={`${password.icon} password-detail-icon`}
+							></i>
+						)}
+						<span>{password.name}</span>
+					</div>
+					<div>
+						<span
+							aria-label="Editar"
+							className="password-detail-edit"
+							onClick={handleEditPassword}
+							onKeyDown={handleEditPassword}
+							tabIndex={0}
+							role="button"
+						>
+							<FaPen />
+						</span>
+						<span
+							aria-label="Eliminar"
+							className="password-detail-delete"
+							onClick={handleDeletePassword}
+							onKeyDown={handleDeletePassword}
+							tabIndex={0}
+							role="button"
+						>
+							<FaTrash />
+						</span>
+					</div>
+				</div>
 
 				<span className="password-detail-field">
-					<span className="password-detail-label">User:</span>{" "}
+					<span className="password-detail-label">User:</span>
 					{password.username}
 				</span>
 
 				<span className="password-detail-field">
-					<span className="password-detail-label">Password:</span>{" "}
+					<span className="password-detail-label">Password:</span>
 					<span className="password-detail-encrypted-password">
 						<input
 							value={decryptedPassword}
@@ -209,18 +192,5 @@ const PasswordDetail = ({ password, getPassword, setPassword }) => {
 				</span>
 			</div>
 		</div>
-	) : null;
-
-	return <>{passwordMarkup}</>;
-};
-
-const mapStateToProps = (state) => ({
-	password: state.data.selectedPassword,
-});
-
-const mapActionsToProps = {
-	getPassword,
-	setPassword,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(PasswordDetail);
+	);
+}

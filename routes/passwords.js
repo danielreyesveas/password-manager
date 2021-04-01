@@ -111,3 +111,19 @@ exports.decryptPassword = (request, response) => {
 		return response.status(500).json({ error: error });
 	}
 };
+
+exports.deletePassword = async (request, response) => {
+	const { id } = request.body;
+
+	try {
+		const password = await Password.findByPk(id);
+		if (!password)
+			return response.status(404).json({ error: "Password not found." });
+
+		await password.destroy();
+
+		return response.status(200).json(id);
+	} catch (error) {
+		return response.status(500).json({ error: error });
+	}
+};

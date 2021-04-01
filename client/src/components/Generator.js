@@ -9,6 +9,7 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import { withStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
+import Overlay from "./layout/Overlay";
 
 const GreenCheckbox = withStyles({
 	root: {
@@ -42,6 +43,7 @@ const LengthLabel = withStyles({
 	root: {
 		color: "#f7f7f7",
 		height: 8,
+		marginBottom: 4,
 	},
 })(InputLabel);
 
@@ -118,32 +120,28 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 
 	useEffect(() => {
 		handleGenerate();
-
 		// eslint-disable-next-line
 	}, [options]);
 
+	const hideModal = () => {
+		setShowGenerator(false);
+	};
+
 	return showGenerator ? (
-		<div
-			className="password-generator password-generator__overlay"
-			data-testid="password-generator-comp"
-		>
-			<div
-				className="password-generator__main generator-main"
-				data-testid="password-generator-main"
-			>
-				<div data-testid="quick-password-generator">
+		<Overlay onClickOutside={hideModal} onEscape={hideModal}>
+			<div className="password-generator__main generator-main">
+				<div className="dialog-header-options">
+					<h3>Generar Contraseña</h3>
 					<span
-						aria-label="Cancel adding task"
-						className="password-generator__cancel-x"
-						data-testid="password-generator-quick-cancel"
-						onClick={() => setShowGenerator(false)}
-						onKeyDown={() => setShowGenerator(false)}
+						aria-label="Cerrar"
+						className="cancel-x"
+						onClick={hideModal}
+						onKeyDown={hideModal}
 						tabIndex={0}
 						role="button"
 					>
 						X
 					</span>
-					<h2 className="header">Generar Contraseña</h2>
 				</div>
 
 				<FormGroup row>
@@ -152,13 +150,13 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 					</LengthLabel>
 
 					<LengthSlider
-						aria-label="Length label"
+						aria-label="Longitud"
 						value={options.length}
 						min={3}
 						max={32}
 						name="length"
 						onChange={handleSliderChange}
-						aria-labelledby="range-slider"
+						aria-labelledby="Slider"
 					/>
 				</FormGroup>
 
@@ -298,27 +296,27 @@ const Generator = ({ groups, selectedGroup, addPassword }) => {
 					/>
 				</FormGroup>
 
-				<button
-					className="password-generator__submit"
-					data-testid="password-generator"
-					type="button"
-					onClick={() => handleCopy()}
-				>
-					Copiar
-				</button>
-				<span
-					aria-label="Cancel adding a task"
-					className="password-generator__cancel"
-					data-testid="password-generator-main-cancel"
-					onClick={() => setShowGenerator(false)}
-					onKeyDown={() => setShowGenerator(false)}
-					tabIndex={0}
-					role="button"
-				>
-					Cerrar
-				</span>
+				<div className="btns">
+					<span
+						aria-label="Cancelar"
+						className="cancel"
+						onClick={hideModal}
+						onKeyDown={hideModal}
+						tabIndex={0}
+						role="button"
+					>
+						Cerrar
+					</span>
+					<button
+						className="submit"
+						type="button"
+						onClick={handleCopy}
+					>
+						Copiar
+					</button>
+				</div>
 			</div>
-		</div>
+		</Overlay>
 	) : null;
 };
 

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { FaRegMoon, FaSun, FaPlus, FaSignOutAlt } from "react-icons/fa";
 import AddPassword from "../AddPassword";
 import EditPassword from "../EditPassword";
@@ -5,8 +6,12 @@ import { useUI } from "../../context";
 import Generator from "../Generator";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/actions/userActions";
+import DeleteGroup from "../DeleteGroup";
+import DeletePassword from "../DeletePassword";
 
-export default function Header({ darkMode, setDarkMode }) {
+export default function Header() {
+	const profileRef = useRef(null);
+	const { darkMode, setDarkMode } = useUI();
 	const user = useSelector((state: any) => state.user.user);
 	const dispatch = useDispatch();
 
@@ -15,7 +20,9 @@ export default function Header({ darkMode, setDarkMode }) {
 		setShowSidebar,
 		showProfileMenu,
 		setShowProfileMenu,
+		showAddPassword,
 		setShowAddPassword,
+		showEditPassword,
 	} = useUI();
 
 	const handleProfile = () => {
@@ -26,8 +33,39 @@ export default function Header({ darkMode, setDarkMode }) {
 		dispatch(logoutUser());
 	};
 
+	useEffect(() => {
+		const handleOutsideClick = (event) => {
+			if (!profileRef.current?.contains(event.target)) {
+				if (!showProfileMenu) return;
+				setShowProfileMenu(false);
+			}
+		};
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("click", handleOutsideClick);
+		}
+
+		if (typeof window !== "undefined") {
+			return () =>
+				window.removeEventListener("click", handleOutsideClick);
+		}
+	}, [showProfileMenu, setShowProfileMenu]);
+
+	useEffect(() => {
+		const handleEscape = (event) => {
+			if (!showProfileMenu) return;
+
+			if (event.key === "Escape") {
+				setShowProfileMenu(false);
+			}
+		};
+
+		document.addEventListener("keyup", handleEscape);
+		return () => document.removeEventListener("keyup", handleEscape);
+	}, [showProfileMenu, setShowProfileMenu]);
+
 	return (
-		<header className="header" data-testid="header">
+		<header className="header">
 			<nav>
 				{user && (
 					<div
@@ -44,7 +82,6 @@ export default function Header({ darkMode, setDarkMode }) {
 						{user && (
 							<li className="settings__add">
 								<button
-									data-testid="quick-add-password-action"
 									aria-label="Quick add task"
 									onClick={() => {
 										setShowAddPassword(true);
@@ -60,7 +97,6 @@ export default function Header({ darkMode, setDarkMode }) {
 						)}
 						<li className="settings__darkmode">
 							<button
-								data-testid="dark-mode-action"
 								aria-label="Darkmode on/off"
 								onClick={() => setDarkMode(!darkMode)}
 								onKeyDown={() => setDarkMode(!darkMode)}
@@ -73,6 +109,7 @@ export default function Header({ darkMode, setDarkMode }) {
 							<li
 								className="settings__avatar"
 								onClick={handleProfile}
+								ref={profileRef}
 							>
 								<div className="avatar">
 									<img src={user.imageUrl} alt="Avatar" />
@@ -96,9 +133,11 @@ export default function Header({ darkMode, setDarkMode }) {
 
 			<Generator />
 
-			<AddPassword />
+			{showAddPassword && <AddPassword />}
+			{showEditPassword && <EditPassword />}
 
-			<EditPassword />
+			<DeleteGroup />
+			<DeletePassword />
 		</header>
 	);
 }

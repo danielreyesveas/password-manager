@@ -1,4 +1,4 @@
-const { Group } = require("../models");
+const { Group, Password } = require("../models");
 
 exports.getGroups = async (request, response) => {
 	const user = response.locals.user;
@@ -38,6 +38,27 @@ exports.updateGroup = async (request, response) => {
 		await group.save();
 
 		return response.status(200).json(group);
+	} catch (error) {
+		return response.status(500).json({ error: error });
+	}
+};
+
+exports.deleteGroup = async (request, response) => {
+	const { id } = request.body;
+
+	try {
+		const group = await Group.findByPk(id);
+		if (!group)
+			return response.status(404).json({ error: "Group not found." });
+
+		await group.destroy();
+		await Password.destroy({
+			where: {
+				groupId: group.id,
+			},
+		});
+
+		return response.status(200).json(id);
 	} catch (error) {
 		return response.status(500).json({ error: error });
 	}

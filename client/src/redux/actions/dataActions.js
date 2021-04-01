@@ -3,12 +3,13 @@ import {
 	SET_GROUP,
 	ADD_GROUP,
 	UPDATE_GROUP,
-	SET_SHOW_EDIT_GROUP,
+	DELETE_GROUP,
 	GET_PASSWORDS,
 	ADD_PASSWORD,
 	GET_PASSWORD,
 	UPDATE_PASSWORD,
 	SET_PASSWORD,
+	DELETE_PASSWORD,
 } from "../types";
 
 import axios from "axios";
@@ -50,8 +51,15 @@ export const updateGroup = (group) => (dispatch) => {
 		});
 };
 
-export const setShowEditGroup = (show) => (dispatch) => {
-	dispatch({ type: SET_SHOW_EDIT_GROUP, payload: show });
+export const deleteGroup = (id) => (dispatch) => {
+	axios
+		.post("/delete-group", { id })
+		.then((response) => {
+			dispatch({ type: DELETE_GROUP, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
 
 export const getPasswords = () => (dispatch) => {
@@ -101,4 +109,15 @@ export const getPassword = (id) => (dispatch) => {
 
 export const setPassword = (selectedPassword) => (dispatch) => {
 	dispatch({ type: SET_PASSWORD, payload: selectedPassword });
+};
+
+export const deletePassword = (id) => (dispatch) => {
+	axios
+		.post("/delete-password", { id })
+		.then((response) => {
+			dispatch({ type: DELETE_PASSWORD, payload: response.data });
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };

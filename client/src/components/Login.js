@@ -66,39 +66,41 @@ export default function Login() {
 
 	return (
 		<div className="auth__content">
-			<h1>Login</h1>
+			<div className="auth__form__container">
+				<h1>Login</h1>
 
-			<form onSubmit={handleSubmit} className="auth__form" noValidate>
-				<label>{errors.username ?? "Nombre de usuario"}</label>
-				<input
-					type="text"
-					name="username"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
-				/>
+				<form onSubmit={handleSubmit} className="auth__form" noValidate>
+					<label>{errors.username ?? "Nombre de usuario"}</label>
+					<input
+						type="text"
+						name="username"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+					/>
 
-				<label>{errors.password ?? "Contraseña"}</label>
-				<input
-					type="password"
-					name="password"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-				/>
+					<label>{errors.password ?? "Contraseña"}</label>
+					<input
+						type="password"
+						name="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
 
-				<div>
-					<button type="submit">Entrar</button>
+					<div>
+						<button type="submit">Entrar</button>
+					</div>
+
+					<span>{errors.general}</span>
+				</form>
+
+				<div className="auth__options">
+					<button onClick={() => socialLogin(googleAuthProvider)}>
+						<FaGoogle /> Entra con Google
+					</button>
+					<a href="/" onClick={handleRegister}>
+						Registrarse
+					</a>
 				</div>
-
-				<span>{errors.general}</span>
-			</form>
-
-			<div className="auth__options">
-				<button onClick={() => socialLogin(googleAuthProvider)}>
-					<FaGoogle /> Entra con Google
-				</button>
-				<a href="/" onClick={handleRegister}>
-					Registrarse
-				</a>
 			</div>
 		</div>
 	);

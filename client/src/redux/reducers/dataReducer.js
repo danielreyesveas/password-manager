@@ -3,18 +3,18 @@ import {
 	SET_GROUP,
 	ADD_GROUP,
 	UPDATE_GROUP,
-	SET_SHOW_EDIT_GROUP,
 	GET_PASSWORDS,
 	ADD_PASSWORD,
 	GET_PASSWORD,
 	UPDATE_PASSWORD,
 	SET_PASSWORD,
+	DELETE_GROUP,
+	DELETE_PASSWORD,
 } from "../types";
 
 const initialState = {
 	groups: [],
 	selectedGroup: null,
-	showEditGroup: null,
 	passwords: [],
 	selectedPasswords: [],
 	selectedPassword: null,
@@ -51,6 +51,9 @@ const dataReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				groups: [...state.groups, payload],
+				selectedGroup: payload,
+				selectedPasswords: [],
+				selectedPassword: null,
 			};
 		case UPDATE_GROUP:
 			groupsCopy = state.groups;
@@ -61,11 +64,18 @@ const dataReducer = (state = initialState, { type, payload }) => {
 				groups: groupsCopy,
 				selectedGroup: payload,
 			};
-		case SET_SHOW_EDIT_GROUP:
+		case DELETE_GROUP:
 			return {
 				...state,
-				showEditGroup: !!payload,
-				selectedGroup: payload ? payload : state.selectedGroup,
+				selectedGroup: null,
+				groups: state.groups.filter((group) => group.id !== payload),
+				selectedPasswords: state.selectedPasswords.filter(
+					(task) => task.groupId !== payload
+				),
+				selectedPassword: null,
+				passwords: state.passwords.filter(
+					(password) => password.groupId !== payload
+				),
 			};
 		case GET_PASSWORDS:
 			return {
@@ -121,6 +131,17 @@ const dataReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				selectedPassword: selectedPasswordCopy,
+			};
+		case DELETE_PASSWORD:
+			return {
+				...state,
+				selectedPassword: null,
+				passwords: state.passwords.filter(
+					(password) => password.id !== payload
+				),
+				selectedPasswords: state.selectedPasswords.filter(
+					(password) => password.id !== payload
+				),
 			};
 		default:
 			return state;

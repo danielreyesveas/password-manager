@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePassword } from "../redux/actions/dataActions";
-import GroupOverlay from "./GroupOverlay";
 import { useUI } from "../context";
+import Overlay from "./layout/Overlay";
 
-const EditPassword = ({
-	groups,
-	selectedPassword,
-	selectedGroup,
-	updatePassword,
-}) => {
+export default function EditPassword() {
+	const selectedPassword = useSelector(
+		(state) => state.data.selectedPassword
+	);
+	const groups = useSelector((state) => state.data.groups);
+	const dispatch = useDispatch();
+
 	const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [website, setWebsite] = useState("");
 	const [password, setPassword] = useState("");
 	const [notes, setNotes] = useState("");
 	const [group, setGroup] = useState("");
-	const [showGroupOverlay, setShowGroupOverlay] = useState(false);
-	const { showEditPassword, setShowEditPassword } = useUI();
+	const { setShowEditPassword } = useUI();
 
 	useEffect(() => {
 		if (selectedPassword) {
@@ -48,7 +48,7 @@ const EditPassword = ({
 			notes: notes ? notes : null,
 		};
 
-		updatePassword(pass);
+		dispatch(updatePassword(pass));
 
 		setName("");
 		setUsername("");
@@ -59,154 +59,103 @@ const EditPassword = ({
 		setShowEditPassword(false);
 	};
 
-	return (
-		<div
-			className={
-				showEditPassword
-					? "add-password add-password__overlay"
-					: "add-password"
-			}
-			data-testid="add-password-comp"
-		>
-			{showEditPassword && (
-				<div
-					className="add-password__main"
-					data-testid="add-password-main"
-				>
-					<div data-testid="quick-add-password">
-						<span
-							aria-label="Cancel adding task"
-							className="add-password__cancel-x"
-							data-testid="add-password-quick-cancel"
-							onClick={() => {
-								setShowGroupOverlay(false);
-								setShowEditPassword(false);
-							}}
-							onKeyDown={() => {
-								setShowGroupOverlay(false);
-								setShowEditPassword(false);
-							}}
-							tabIndex={0}
-							role="button"
-						>
-							X
-						</span>
-						<h2 className="header">Editar Contraseña</h2>
-					</div>
+	const hideModal = () => {
+		setShowEditPassword(false);
+	};
 
-					<GroupOverlay
-						setGroup={setGroup}
-						showGroupOverlay={showGroupOverlay}
-						setShowGroupOverlay={setShowGroupOverlay}
-					/>
-					<label>Nombre:</label>
-					<input
-						aria-label="Enter the title"
-						className="add-password__name"
-						data-testid="add-password-content"
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<label>Grupo:</label>
-					<select
-						className="add-password__group"
-						onChange={(e) => setGroup(e.target.value)}
-						value={group}
-					>
-						<option value="">Todos</option>
-						{groups?.map((group) => (
-							<option key={group.id} value={group.id}>
-								{group.name}
-							</option>
-						))}
-					</select>
-					<label>Usuario:</label>
-					<input
-						aria-label="Enter your username"
-						className="add-password__content"
-						data-testid="add-password-content"
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-					<label>Sitio web:</label>
-					<input
-						aria-label="Enter your website"
-						className="add-password__content"
-						data-testid="add-password-content"
-						type="text"
-						value={website}
-						onChange={(e) => setWebsite(e.target.value)}
-					/>
-					<label>Contraseña:</label>
-					<input
-						aria-label="Enter your password"
-						className="add-password__content"
-						data-testid="add-password-content"
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-					<label>Notas:</label>
-					<textarea
-						aria-label="Enter your notes"
-						className="add-password__content"
-						rows="4"
-						data-testid="add-password-content"
-						onChange={(e) => setNotes(e.target.value)}
-						value={notes}
-					></textarea>
-					<button
-						className="add-password__submit"
-						data-testid="add-password"
-						type="button"
-						disabled={name === "" || password === ""}
-						onClick={() => handleUpdatePassword()}
-					>
-						Guardar
-					</button>
+	return (
+		<Overlay onClickOutside={hideModal} onEscape={hideModal}>
+			<div className="add-password__main">
+				<div className="dialog-header-options">
+					<h3>Editar Contraseña</h3>
 					<span
-						aria-label="Cancel adding a task"
-						className="add-password__cancel"
-						data-testid="add-password-main-cancel"
-						onClick={() => {
-							setShowEditPassword(false);
-							setShowGroupOverlay(false);
-						}}
-						onKeyDown={() => {
-							setShowEditPassword(false);
-							setShowGroupOverlay(false);
-						}}
+						aria-label="Cancelar"
+						className="cancel-x"
+						onClick={hideModal}
+						onKeyDown={hideModal}
+						tabIndex={0}
+						role="button"
+					>
+						X
+					</span>
+				</div>
+
+				<label>Nombre:</label>
+				<input
+					aria-label="Nombre"
+					className="add-password__name"
+					type="text"
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+				/>
+				<label>Grupo:</label>
+				<select
+					className="add-password__group"
+					onChange={(e) => setGroup(e.target.value)}
+					value={group}
+				>
+					<option value="">Todos</option>
+					{groups?.map((group) => (
+						<option key={group.id} value={group.id}>
+							{group.name}
+						</option>
+					))}
+				</select>
+				<label>Usuario:</label>
+				<input
+					aria-label="Nombre de Usuario"
+					className="add-password__content"
+					type="text"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+				/>
+				<label>Sitio web:</label>
+				<input
+					aria-label="Sitio Web"
+					className="add-password__content"
+					type="text"
+					value={website}
+					onChange={(e) => setWebsite(e.target.value)}
+				/>
+				<label>Contraseña:</label>
+				<input
+					aria-label="Contraseña"
+					className="add-password__content"
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<label>Notas:</label>
+				<textarea
+					aria-label="Notas"
+					className="add-password__content"
+					rows="4"
+					onChange={(e) => setNotes(e.target.value)}
+					value={notes}
+				></textarea>
+
+				<div className="btns">
+					<span
+						aria-label="Cancelar"
+						className="cancel"
+						onClick={hideModal}
+						onKeyDown={hideModal}
 						tabIndex={0}
 						role="button"
 					>
 						Cancelar
 					</span>
-					{/* <span
-						className="add-password__project"
-						data-testid="show-project-overlay"
-						onClick={() => setShowGroupOverlay(!showGroupOverlay)}
-						onKeyDown={() => setShowGroupOverlay(!showGroupOverlay)}
-						tabIndex={0}
-						role="button"
+					<button
+						className="submit"
+						type="button"
+						disabled={name === "" || password === ""}
+						onClick={handleUpdatePassword}
 					>
-						<FaRegListAlt />
-					</span> */}
+						Guardar
+					</button>
 				</div>
+			</div>
 			)}
-		</div>
+		</Overlay>
 	);
-};
-
-const mapStateToProps = (state) => ({
-	groups: state.data.groups,
-	selectedPassword: state.data.selectedPassword,
-	selectedGroup: state.data.selectedGroup,
-});
-
-const mapActionsToProps = {
-	updatePassword,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(EditPassword);
+}

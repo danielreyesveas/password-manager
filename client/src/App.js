@@ -1,13 +1,12 @@
-import { useState } from "react";
 import axios from "axios";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Content from "./components/layout/Content";
 import Auth from "./components/Auth";
-import { UIProvider } from "./context";
 import jwt from "jwt-decode";
 import store from "./redux/store";
 import { useSelector } from "react-redux";
+import { useUI } from "./context";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 const token = localStorage.getItem("token");
@@ -26,34 +25,21 @@ if (token) {
 	console.log("NO TOKEN");
 }
 
-function App({ darkModeDefault = true }) {
+export default function App() {
 	const user = useSelector((state: any) => state.user.user);
-
-	const [darkMode, setDarkMode] = useState(darkModeDefault);
+	const { darkMode } = useUI();
 
 	return (
-		<UIProvider>
-			<main
-				data-testid="application"
-				className={darkMode ? "darkmode" : undefined}
-			>
-				{user ? (
-					<>
-						<Header darkMode={darkMode} setDarkMode={setDarkMode} />
-
-						<Content />
-
-						<Footer />
-					</>
-				) : (
-					<>
-						<Header darkMode={darkMode} setDarkMode={setDarkMode} />
-						<Auth />
-					</>
-				)}
-			</main>
-		</UIProvider>
+		<main className={darkMode ? "darkmode" : undefined}>
+			<Header />
+			{user ? (
+				<>
+					<Content />
+					<Footer />
+				</>
+			) : (
+				<Auth />
+			)}
+		</main>
 	);
 }
-
-export default App;

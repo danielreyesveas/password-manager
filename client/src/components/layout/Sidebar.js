@@ -1,27 +1,69 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FaChevronDown, FaInbox } from "react-icons/fa";
 
-import { connect } from "react-redux";
 import AddGroup from "../AddGroup";
 import Groups from "../Groups";
 import { setGroup } from "../../redux/actions/dataActions";
 import EditGroup from "../EditGroup";
 import { useUI } from "../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
-const Sidebar = ({ selectedGroup, setGroup }) => {
-	const { showSidebar, setShowSidebar, showEditGroup } = useUI();
+export default function Sidebar() {
 	const [showGroups, setShowGroups] = useState(true);
+	const sidebarRef = useRef(null);
+	const { showSidebar, setShowSidebar, showEditGroup } = useUI();
+	const selectedGroup = useSelector((state) => state.data.selectedGroup);
+	const dispatch = useDispatch();
+
+	const handleSelect = () => {
+		dispatch(setGroup(null));
+		setShowSidebar(false);
+	};
+
+	useEffect(() => {
+		const handleOutsideClick = (event) => {
+			if (
+				!sidebarRef.current?.contains(event.target) &&
+				event.target.getAttribute("data-type") !== "action"
+			) {
+				if (!showSidebar) return;
+				setShowSidebar(false);
+			}
+		};
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("click", handleOutsideClick);
+		}
+
+		if (typeof window !== "undefined") {
+			return () =>
+				window.removeEventListener("click", handleOutsideClick);
+		}
+	}, [showSidebar, setShowSidebar]);
+
+	useEffect(() => {
+		const handleEscape = (event) => {
+			if (!showSidebar) return;
+			if (event.key === "Escape") {
+				setShowSidebar(false);
+			}
+		};
+
+		document.addEventListener("keyup", handleEscape);
+		return () => document.removeEventListener("keyup", handleEscape);
+	}, [showSidebar, setShowSidebar]);
 
 	return (
 		<>
 			<div
 				className={showSidebar ? "sidebar show-sidebar" : "sidebar"}
-				data-testid="sidebar"
+				ref={sidebarRef}
 			>
 				<ul className="sidebar__generic">
 					<div
 						className="sidebar__middle"
-						aria-label="Show/hide projects"
+						aria-label="Proyectos"
 						onClick={() => setShowGroups(!showGroups)}
 						onKeyDown={() => setShowGroups(!showGroups)}
 						tabIndex={0}
@@ -38,29 +80,19 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 					</div>
 
 					<ul className="sidebar__projects">
-						<li className={!selectedGroup ? "active" : undefined}>
-							<div
-								data-testid="inbox"
-								onClick={() => {
-									setGroup(null);
-									setShowSidebar(false);
-								}}
-								onKeyDown={() => {
-									setGroup(null);
-									setShowSidebar(false);
-								}}
-								tabIndex={0}
-								role="button"
-							>
-								<span className="sidebar__default-name">
-									<span>
-										<FaInbox />
-									</span>
-									Todos
-								</span>
+						<li
+							className={!selectedGroup ? "active" : undefined}
+							onClick={handleSelect}
+							onKeyDown={handleSelect}
+							tabIndex={0}
+							role="button"
+						>
+							<div className="sidebar__default-name">
+								<FaInbox />
+								<span>Todos</span>
 							</div>
 						</li>
-						{showGroups && <Groups />}
+						<Groups showGroups={showGroups} />
 					</ul>
 				</ul>
 				{showGroups && !showEditGroup && <AddGroup />}
@@ -68,14 +100,4 @@ const Sidebar = ({ selectedGroup, setGroup }) => {
 			</div>
 		</>
 	);
-};
-
-const mapStateToProps = (state) => ({
-	selectedGroup: state.data.selectedGroup,
-});
-
-const mapActionsToProps = {
-	setGroup,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(Sidebar);
+}

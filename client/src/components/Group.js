@@ -1,20 +1,27 @@
-import { useState } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 
-import { connect } from "react-redux";
 import { setGroup } from "../redux/actions/dataActions";
 import { useUI } from "../context";
+import { useDispatch } from "react-redux";
 
-const Group = ({ group, setGroup }) => {
-	const { setShowSidebar, setShowEditGroup } = useUI();
-	const { id, name } = group;
-	const [showConfirm, setShowConfirm] = useState(false);
+export default function Group({ group }) {
+	const { setShowSidebar, setShowEditGroup, setShowDeleteGroup } = useUI();
+	const dispatch = useDispatch();
+	const { name } = group;
 
-	const deleteProject = (id) => {};
+	const handleDeleteGroup = () => {
+		dispatch(setGroup(group));
+		setShowDeleteGroup(true);
+	};
 
-	const handleEditGroup = (group) => {
-		setGroup(group);
+	const handleEditGroup = () => {
+		dispatch(setGroup(group));
 		setShowEditGroup(true);
+	};
+
+	const handleSelectGroup = () => {
+		dispatch(setGroup(group));
+		setShowSidebar(false);
 	};
 
 	return (
@@ -23,14 +30,8 @@ const Group = ({ group, setGroup }) => {
 				aria-label={`Select ${group.name}`}
 				role="button"
 				tabIndex={0}
-				onClick={() => {
-					setGroup(group);
-					setShowSidebar(false);
-				}}
-				onKeyDown={() => {
-					setGroup(group);
-					setShowSidebar(false);
-				}}
+				onClick={handleSelectGroup}
+				onKeyDown={handleSelectGroup}
 				className="sidebar__project-name"
 			>
 				<span className="sidebar__dot">•</span>
@@ -39,8 +40,8 @@ const Group = ({ group, setGroup }) => {
 			<span
 				aria-label="Edit project"
 				className="sidebar__project-edit"
-				onClick={() => handleEditGroup(group)}
-				onKeyDown={() => handleEditGroup(group)}
+				onClick={handleEditGroup}
+				onKeyDown={handleEditGroup}
 				tabIndex={0}
 				role="button"
 			>
@@ -49,43 +50,13 @@ const Group = ({ group, setGroup }) => {
 			<span
 				aria-label="Confirm deletion of project"
 				className="sidebar__project-delete"
-				data-testid="delete-project"
-				onClick={() => setShowConfirm(!showConfirm)}
-				onKeyDown={() => setShowConfirm(!showConfirm)}
+				onClick={handleDeleteGroup}
+				onKeyDown={handleDeleteGroup}
 				tabIndex={0}
 				role="button"
 			>
 				<FaTrash />
-				{showConfirm && (
-					<div className="project-delete-modal">
-						<span className="project-delete-modal__inner">
-							<p>¿Estás seguro de eliminarlo?</p>
-							<button
-								type="button"
-								onClick={() => deleteProject(id)}
-								onKeyDown={() => deleteProject(id)}
-							>
-								Eliminar
-							</button>
-							<span
-								aria-label="Cancel adding project, do not delete"
-								onClick={() => setShowConfirm(!showConfirm)}
-								onKeyDown={() => setShowConfirm(!showConfirm)}
-								tabIndex={0}
-								role="button"
-							>
-								Cancelar
-							</span>
-						</span>
-					</div>
-				)}
 			</span>
 		</>
 	);
-};
-
-const mapActionsToProps = {
-	setGroup,
-};
-
-export default connect(null, mapActionsToProps)(Group);
+}

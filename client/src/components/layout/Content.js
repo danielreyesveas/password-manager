@@ -2,7 +2,7 @@ import Sidebar from "./Sidebar";
 import Passwords from "../Passwords";
 import PasswordDetail from "../PasswordDetail";
 
-const Content = () => {
+export default function Content() {
 	return (
 		<section className="content">
 			<Sidebar />
@@ -12,6 +12,4 @@ const Content = () => {
 			</div>
 		</section>
 	);
-};
-
-export default Content;
+}

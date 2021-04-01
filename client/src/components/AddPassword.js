@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { connect } from "react-redux";
 import { addPassword } from "../redux/actions/dataActions";
-import GroupOverlay from "./GroupOverlay";
 import { useUI } from "../context";
+import { useDispatch, useSelector } from "react-redux";
+import Overlay from "./layout/Overlay";
 
-const AddPassword = ({ groups, selectedGroup, addPassword }) => {
-	const { showAddPassword, setShowAddPassword } = useUI();
+export default function AddPassword() {
+	const { setShowAddPassword } = useUI();
 	const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [website, setWebsite] = useState("");
 	const [password, setPassword] = useState("");
 	const [notes, setNotes] = useState("");
 	const [group, setGroup] = useState(null);
-	const [showGroupOverlay, setShowGroupOverlay] = useState(false);
+
+	const selectedGroup = useSelector((state) => state.data.selectedGroup);
+	const groups = useSelector((state) => state.data.groups);
+	const dispatch = useDispatch();
 
 	const handleAddPassword = () => {
 		if (name.trim() === "" || password.trim() === "") return;
@@ -26,7 +29,7 @@ const AddPassword = ({ groups, selectedGroup, addPassword }) => {
 			notes: notes ? notes : null,
 		};
 
-		addPassword(pass);
+		dispatch(addPassword(pass));
 
 		setName("");
 		setUsername("");
@@ -37,44 +40,31 @@ const AddPassword = ({ groups, selectedGroup, addPassword }) => {
 		setShowAddPassword(false);
 	};
 
-	return showAddPassword ? (
-		<div
-			className="add-password add-password__overlay"
-			data-testid="add-password-comp"
-		>
-			<div className="add-password__main" data-testid="add-password-main">
-				<div data-testid="quick-add-password">
+	const hideModal = () => {
+		setShowAddPassword(false);
+	};
+
+	return (
+		<Overlay onClickOutside={hideModal} onEscape={hideModal}>
+			<div className="add-password__main">
+				<div className="dialog-header-options">
+					<h3>Nueva Contraseña</h3>
 					<span
-						aria-label="Cancel adding task"
-						className="add-password__cancel-x"
-						data-testid="add-password-quick-cancel"
-						onClick={() => {
-							setShowGroupOverlay(false);
-							setShowAddPassword(false);
-						}}
-						onKeyDown={() => {
-							setShowGroupOverlay(false);
-							setShowAddPassword(false);
-						}}
+						aria-label="Cancelar"
+						className="cancel-x"
+						onClick={hideModal}
+						onKeyDown={hideModal}
 						tabIndex={0}
 						role="button"
 					>
 						X
 					</span>
-					<h2 className="header">Nueva Contraseña</h2>
 				</div>
-
-				<GroupOverlay
-					setGroup={setGroup}
-					showGroupOverlay={showGroupOverlay}
-					setShowGroupOverlay={setShowGroupOverlay}
-				/>
 
 				<label>Nombre:</label>
 				<input
-					aria-label="Enter the title"
+					aria-label="Nombre"
 					className="add-password__name"
-					data-testid="add-password-content"
 					type="text"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
@@ -95,9 +85,8 @@ const AddPassword = ({ groups, selectedGroup, addPassword }) => {
 
 				<label>Usuario:</label>
 				<input
-					aria-label="Enter your username"
+					aria-label="Nombre de Usuario"
 					className="add-password__content"
-					data-testid="add-password-content"
 					type="text"
 					value={username}
 					onChange={(e) => setUsername(e.target.value)}
@@ -105,9 +94,8 @@ const AddPassword = ({ groups, selectedGroup, addPassword }) => {
 
 				<label>Sitio web:</label>
 				<input
-					aria-label="Enter your website"
+					aria-label="Sitio Web"
 					className="add-password__content"
-					data-testid="add-password-content"
 					type="text"
 					value={website}
 					onChange={(e) => setWebsite(e.target.value)}
@@ -115,9 +103,8 @@ const AddPassword = ({ groups, selectedGroup, addPassword }) => {
 
 				<label>Contraseña:</label>
 				<input
-					aria-label="Enter your password"
+					aria-label="Contraseña"
 					className="add-password__content"
-					data-testid="add-password-content"
 					type="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
@@ -125,65 +112,34 @@ const AddPassword = ({ groups, selectedGroup, addPassword }) => {
 
 				<label>Notas:</label>
 				<textarea
-					aria-label="Enter your notes"
+					aria-label="Notas"
 					className="add-password__content"
 					rows="4"
-					data-testid="add-password-content"
 					onChange={(e) => setNotes(e.target.value)}
 					value={notes}
 				></textarea>
 
-				<button
-					className="add-password__submit"
-					data-testid="add-password"
-					type="button"
-					disabled={name === "" || password === ""}
-					onClick={() => {
-						handleAddPassword() && setShowAddPassword(false);
-					}}
-				>
-					Agregar
-				</button>
-				<span
-					aria-label="Cancel adding a task"
-					className="add-password__cancel"
-					data-testid="add-password-main-cancel"
-					onClick={() => {
-						setShowAddPassword(false);
-						setShowGroupOverlay(false);
-					}}
-					onKeyDown={() => {
-						setShowAddPassword(false);
-						setShowGroupOverlay(false);
-					}}
-					tabIndex={0}
-					role="button"
-				>
-					Cancelar
-				</span>
-
-				{/* <span
-						className="add-password__project"
-						data-testid="show-project-overlay"
-						onClick={() => setShowGroupOverlay(!showGroupOverlay)}
-						onKeyDown={() => setShowGroupOverlay(!showGroupOverlay)}
+				<div className="btns">
+					<span
+						aria-label="Cancelar"
+						className="cancel"
+						onClick={hideModal}
+						onKeyDown={hideModal}
 						tabIndex={0}
 						role="button"
 					>
-						<FaRegListAlt />
-					</span> */}
+						Cancelar
+					</span>
+					<button
+						className="submit"
+						type="button"
+						disabled={name === "" || password === ""}
+						onClick={handleAddPassword}
+					>
+						Agregar
+					</button>
+				</div>
 			</div>
-		</div>
-	) : null;
-};
-
-const mapStateToProps = (state) => ({
-	groups: state.data.groups,
-	selectedGroup: state.data.selectedGroup,
-});
-
-const mapActionsToProps = {
-	addPassword,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(AddPassword);
+		</Overlay>
+	);
+}
